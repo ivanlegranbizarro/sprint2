@@ -13,21 +13,18 @@ CREATE TABLE
         cognom VARCHAR(20) NOT NULL,
         codi_postal VARCHAR(20) NOT NULL,
         email VARCHAR(20) NULL,
+        UNIQUE,
         telefon VARCHAR(20) NOT NULL,
-        created_at timestamp default current_timestamp,
-        updated_at datetime default current_timestamp,
         id_empleat INT NOT NULL,
         id_client INT NULL COMMENT 'Recomanat',
-        PRIMARY KEY (id)
+        PRIMARY KEY (id) UNIQUE KEY (email) CONSTRAINT fk_client_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
     Empleat (
         id INT NOT NULL AUTO_INCREMENT,
         nom VARCHAR(20) NOT NULL,
-        created_at timestamp default current_timestamp,
-        updated_at datetime default current_timestamp,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id) CONSTRAINT fk_empleat_client FOREIGN KEY (id_client) REFERENCES Client (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -41,7 +38,7 @@ CREATE TABLE
         Fax VARCHAR(20) NULL,
         Email VARCHAR(20) NOT NULL,
         id_ullera INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id) CONSTRAINT fk_proveidor_ullera FOREIGN KEY (id_ullera) REFERENCES Ullera (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -55,7 +52,7 @@ CREATE TABLE
         id_ullera INT NOT NULL,
         preu FLOAT NOT NULL,
         pagat BOOLEAN NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id) CONSTRAINT fk_factura_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id) ON DELETE CASCADE ON UPDATE CASCADE
     );
 
 CREATE TABLE
@@ -70,29 +67,5 @@ CREATE TABLE
         created_at timestamp NULL,
         updated_at timestamp NULL,
         id_proveidor INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id) CONSTRAINT fk_ullera_proveidor FOREIGN KEY (id_proveidor) REFERENCES Proveidor (id)
     );
-
-ALTER TABLE Ullera
-ADD
-    CONSTRAINT FK_Proveidor_TO_Ullera FOREIGN KEY (id_proveidor) REFERENCES Proveidor (id);
-
-ALTER TABLE Proveidor
-ADD
-    CONSTRAINT FK_Ullera_TO_Proveidor FOREIGN KEY (id_ullera) REFERENCES Ullera (id);
-
-ALTER TABLE Client
-ADD
-    CONSTRAINT FK_Empleat_TO_Client FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
-
-ALTER TABLE Factura
-ADD
-    CONSTRAINT FK_Empleat_TO_Ticket FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
-
-ALTER TABLE Factura
-ADD
-    CONSTRAINT FK_Client_TO_Ticket FOREIGN KEY (id_client) REFERENCES Client (id);
-
-ALTER TABLE Factura
-ADD
-    CONSTRAINT FK_Ullera_TO_Ticket FOREIGN KEY (id_ullera) REFERENCES Ullera (id);
