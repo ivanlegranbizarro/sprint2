@@ -1,6 +1,6 @@
 -- Active: 1666249938234@@127.0.0.1@3306@cul_ampolla_db
-CREATE DATABASE IF NOT EXISTS cul_ampolla_db;
 
+CREATE DATABASE IF NOT EXISTS cul_ampolla_db;
 
 use cul_ampolla_db;
 
@@ -43,7 +43,7 @@ CREATE TABLE
     );
 
 CREATE TABLE
-    Ticket (
+    Factura (
         id INT NOT NULL AUTO_INCREMENT,
         created_at timestamp default current_timestamp,
         updated_at datetime default current_timestamp,
@@ -52,6 +52,8 @@ CREATE TABLE
         quantitat INTEGER NOT NULL,
         id_ullera INT NOT NULL,
         preu FLOAT NOT NULL,
+        pagat BOOLEAN NOT NULL,
+        DEFAULT FALSE,
         PRIMARY KEY (id)
     );
 
@@ -82,14 +84,14 @@ ALTER TABLE Client
 ADD
     CONSTRAINT FK_Empleat_TO_Client FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
 
-ALTER TABLE Ticket
+ALTER TABLE Factura
 ADD
     CONSTRAINT FK_Empleat_TO_Ticket FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
 
-ALTER TABLE Ticket
+ALTER TABLE Factura
 ADD
     CONSTRAINT FK_Client_TO_Ticket FOREIGN KEY (id_client) REFERENCES Client (id);
 
-ALTER TABLE Ticket
+ALTER TABLE Factura
 ADD
     CONSTRAINT FK_Ullera_TO_Ticket FOREIGN KEY (id_ullera) REFERENCES Ullera (id);
