@@ -1,6 +1,8 @@
-CREATE DATABASE IF NOT EXISTS spotify_db;
+DROP DATABASE IF EXISTS spotify_db;
 
-use spotify_db;
+CREATE DATABASE spotify_db;
+
+USE spotify_db;
 
 CREATE TABLE
     Album (

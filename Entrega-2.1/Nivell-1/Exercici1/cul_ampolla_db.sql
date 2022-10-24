@@ -1,8 +1,10 @@
 -- Active: 1666249938234@@127.0.0.1@3306@cul_ampolla_db
 
-CREATE DATABASE IF NOT EXISTS cul_ampolla_db;
+DROP DATABASE IF EXISTS cul_ampolla_db;
 
-use cul_ampolla_db;
+CREATE DATABASE cul_ampolla_db;
+
+USE cul_ampolla_db;
 
 CREATE TABLE
     Client (
@@ -53,7 +55,6 @@ CREATE TABLE
         id_ullera INT NOT NULL,
         preu FLOAT NOT NULL,
         pagat BOOLEAN NOT NULL,
-        DEFAULT FALSE,
         PRIMARY KEY (id)
     );
 

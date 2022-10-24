@@ -1,6 +1,8 @@
 -- Active: 1666249938234@@127.0.0.1@3306@cul_ampolla_db
 
-CREATE DATABASE IF NOT EXISTS pizzeria_db;
+DROP DATABASE IF EXISTS pizzeria_db;
+
+CREATE DATABASE pizzeria_db;
 
 use pizzeria_db;
 

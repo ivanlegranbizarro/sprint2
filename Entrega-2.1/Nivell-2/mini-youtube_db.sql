@@ -1,6 +1,8 @@
-CREATE DATABASE IF NOT EXISTS mini_youtube_db;
+DROP DATABASE IF EXISTS mini_youtube_db;
 
-use mini_youtube_db;
+CREATE DATABASE mini_youtube_db;
+
+USE mini_youtube_db;
 
 CREATE TABLE
     Canal (
