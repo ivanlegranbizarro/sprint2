@@ -1,10 +1,8 @@
--- Active: 1666249938234@@127.0.0.1@3306@cul_ampolla_db
-
 DROP DATABASE IF EXISTS pizzeria_db;
 
 CREATE DATABASE pizzeria_db;
 
-use pizzeria_db;
+USE pizzeria_db;
 
 CREATE TABLE
     Botiga (
@@ -21,16 +19,6 @@ CREATE TABLE
         id_empleat INT NOT NULL,
         PRIMARY KEY (id)
     );
-
-CREATE TABLE
-    Categoria (
-        id INT NOT NULL AUTO_INCREMENT,
-        Nom VARCHAR(20) NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
-        id_producte INT NOT NULL,
-        PRIMARY KEY (id)
-    ) COMMENT 'si el producte és pizza';
 
 CREATE TABLE
     Client (
@@ -57,7 +45,9 @@ CREATE TABLE
         updated_at timestamp NULL COMMENT 'entrega',
         id_client INT NOT NULL,
         id_botiga INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_comanda_client FOREIGN KEY (id_client) REFERENCES Client (id),
+        CONSTRAINT fk_comanda_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id)
     );
 
 CREATE TABLE
@@ -72,11 +62,10 @@ CREATE TABLE
             'repartidor',
             'en_botiga'
         ) NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_botiga INT NOT NULL,
         id_ticket INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_empleat_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id)
     );
 
 CREATE TABLE
@@ -91,12 +80,20 @@ CREATE TABLE
             'beguda',
             'hamburguesa'
         ) NOT NULL,
-        updated_at timestamp NULL,
-        created_at timestamp NULL,
         id_categoria INT NOT NULL,
         id_comanda INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_producte_comanda FOREIGN KEY (id_comanda) REFERENCES Comanda (id)
     );
+
+CREATE TABLE
+    Categoria (
+        id INT NOT NULL AUTO_INCREMENT,
+        Nom VARCHAR(20) NOT NULL,
+        id_producte INT NOT NULL,
+        PRIMARY KEY (id),
+        CONSTRAINT fk_categoria_producte FOREIGN KEY (id_producte) REFERENCES Producte (id)
+    ) COMMENT 'si el producte és pizza';
 
 CREATE TABLE
     Ticket (
@@ -109,53 +106,25 @@ CREATE TABLE
         canvi_diners BOOLEAN NULL DEFAULT False,
         id_empleat INT NOT NULL,
         id_comanda INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_ticket_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
+        CONSTRAINT fk_ticket_comanda FOREIGN KEY (id_comanda) REFERENCES Comanda (id)
     );
 
-ALTER TABLE Comanda
+ALTER TABLE Botiga
 ADD
-    CONSTRAINT FK_Client_TO_Comanda FOREIGN KEY (id_client) REFERENCES Client (id);
-
-ALTER TABLE Categoria
+    CONSTRAINT FK_Comanda_TO_Botiga FOREIGN KEY (id_comanda) REFERENCES Comanda (id),
 ADD
-    CONSTRAINT FK_Producte_TO_Categoria FOREIGN KEY (id_producte) REFERENCES Producte (id);
-
-ALTER TABLE Producte
-ADD
-    CONSTRAINT FK_Categoria_TO_Producte FOREIGN KEY (id_categoria) REFERENCES Categoria (id);
+    CONSTRAINT FK_Empleat_TO_Botiga FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
 
 ALTER TABLE Client
 ADD
     CONSTRAINT FK_Comanda_TO_Client FOREIGN KEY (id_comanda) REFERENCES Comanda (id);
 
-ALTER TABLE Producte
-ADD
-    CONSTRAINT FK_Comanda_TO_Producte FOREIGN KEY (id_comanda) REFERENCES Comanda (id);
-
-ALTER TABLE Botiga
-ADD
-    CONSTRAINT FK_Comanda_TO_Botiga FOREIGN KEY (id_comanda) REFERENCES Comanda (id);
-
-ALTER TABLE Comanda
-ADD
-    CONSTRAINT FK_Botiga_TO_Comanda FOREIGN KEY (id_botiga) REFERENCES Botiga (id);
-
-ALTER TABLE Empleat
-ADD
-    CONSTRAINT FK_Botiga_TO_Empleat FOREIGN KEY (id_botiga) REFERENCES Botiga (id);
-
-ALTER TABLE Botiga
-ADD
-    CONSTRAINT FK_Empleat_TO_Botiga FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
-
-ALTER TABLE Ticket
-ADD
-    CONSTRAINT FK_Empleat_TO_Ticket FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
-
 ALTER TABLE Empleat
 ADD
     CONSTRAINT FK_Ticket_TO_Empleat FOREIGN KEY (id_ticket) REFERENCES Ticket (id);
 
-ALTER TABLE Ticket
+ALTER TABLE Producte
 ADD
-    CONSTRAINT FK_Comanda_TO_Ticket FOREIGN KEY (id_comanda) REFERENCES Comanda (id);
+    CONSTRAINT FK_Categoria_TO_Producte FOREIGN KEY (id_categoria) REFERENCES Categoria (id);
