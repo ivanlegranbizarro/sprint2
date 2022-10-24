@@ -1,6 +1,5 @@
 -- Active: 1666249938234@@127.0.0.1@3306@cul_ampolla_db
 
-
 CREATE DATABASE IF NOT EXISTS pizzeria_db;
 
 use pizzeria_db;
@@ -10,6 +9,9 @@ CREATE TABLE
         id INT NOT NULL AUTO_INCREMENT,
         Nom VARCHAR(20) NOT NULL,
         Adreça VARCHAR(20) NOT NULL,
+        Localitat VARCHAR(20) NOT NULL,
+        Provincia VARCHAR(20) NOT NULL,
+        Codi_postal VARCHAR(20) NOT NULL,
         Telefon VARCHAR(20) NOT NULL,
         created_at timestamp NULL,
         updated_at timestamp NULL,
