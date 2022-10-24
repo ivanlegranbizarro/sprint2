@@ -105,7 +105,7 @@ CREATE TABLE
         pagament ENUM('targeta', 'PayPal') NOT NULL,
         created_at timestamp NULL,
         updated_at timestamp NULL,
-        expires_at TIMESTAMP NOT NULL,
+        expires_at DATE NOT NULL,
         id_usuari INT NOT NULL,
         id_targeta INT NOT NULL,
         id_paypal INT NOT NULL,
