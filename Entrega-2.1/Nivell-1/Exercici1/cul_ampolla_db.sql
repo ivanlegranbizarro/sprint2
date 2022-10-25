@@ -79,16 +79,114 @@ ADD
     CONSTRAINT FK_Proveidor_TO_Ullera FOREIGN KEY (id_proveidor) REFERENCES Proveidor (id);
 
 /* Òptica:
-
-Llista el total de factures d'un client/a en un període determinat.
-Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
-Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica. */
+ Llista el total de factures d'un client/a en un període determinat.
+ Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
+ Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica. */
 
 -- Insertar datos
+
 INSERT INTO Empleat (nom) VALUES ('Pepito');
+
 INSERT INTO Empleat (nom) VALUES ('Juanito');
 
-INSERT INTO Client (nom, cognom, codi_postal, email, telefon, id_empleat) VALUES ('Parménides', 'Perez', '08001', 'parmenides@gmail.com', '666666666', 1);
-INSERT INTO Client (nom, cognom, codi_postal, email, telefon, id_empleat) VALUES ('Sócrates', 'Perez', '08001', 'socrates@perez', '666666666', 2);
+INSERT INTO
+    Client (
+        nom,
+        cognom,
+        codi_postal,
+        email,
+        telefon,
+        id_empleat
+    )
+VALUES (
+        'Parménides',
+        'Perez',
+        '08001',
+        'parmenides@gmail.com',
+        '666666666',
+        1
+    );
 
-INSERT INTO Ullera (MARCA, graduacio_1, graduacio_2, Muntura, Color, Preu, created_at, updated_at, id_proveidor) VALUES ('Ray-Ban', 1.5, 1.7, 'Pasta', 'Negre', 100, '2020-01-01 00:00:00', '2020-01-01 00:00:00', 1);
+INSERT INTO
+    Client (
+        nom,
+        cognom,
+        codi_postal,
+        email,
+        telefon,
+        id_empleat
+    )
+VALUES (
+        'Sócrates',
+        'Perez',
+        '08001',
+        'socrates@perez',
+        '666666666',
+        2
+    );
+
+INSERT INTO
+    Ullera (
+        MARCA,
+        graduacio_1,
+        graduacio_2,
+        Muntura,
+        Color,
+        Preu,
+        created_at,
+        updated_at,
+        id_proveidor
+    )
+VALUES (
+        'Ray-Ban',
+        1.5,
+        1.7,
+        'Pasta',
+        'Negre',
+        100,
+        '2020-01-01 00:00:00',
+        '2020-01-01 00:00:00',
+        1
+    );
+
+INSERT INTO
+    Proveidor (
+        Carrer,
+        Numero,
+        codi_postal,
+        Poblacio,
+        Telefon,
+        Fax,
+        Email,
+        id_ullera
+    )
+VALUES (
+        'Carrer de la Pau',
+        1,
+        '08001',
+        'Barcelona',
+        '666666666',
+        '666666666',
+        'proveidor@proveidor.com',
+        1
+    );
+
+INSERT INTO
+    Factura (
+        id_empleat,
+        id_client,
+        quantitat,
+        id_ullera,
+        preu,
+        pagat
+    )
+VALUES (1, 1, 1, 1, 100, 1);
+
+-- Llista el total de factures d'un client/a en un període determinat.
+
+SELECT
+    SUM(preu) AS total_factures
+FROM Factura
+WHERE
+    id_client = 1
+    AND created_at BETWEEN '2020-01-01 00:00:00' AND '2020-01-01 00:00:00';
