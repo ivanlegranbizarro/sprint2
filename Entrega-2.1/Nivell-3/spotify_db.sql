@@ -12,7 +12,9 @@ CREATE TABLE
         publicacio DATE NOT NULL,
         id_artista INT NOT NULL,
         id_canço INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_album_artista FOREIGN KEY (id_artista) REFERENCES Artista (id),
+        CONSTRAINT fk_album_canço FOREIGN KEY (id_canço) REFERENCES Canço (id)
     );
 
 CREATE TABLE
@@ -21,7 +23,9 @@ CREATE TABLE
         nom VARCHAR(20) NOT NULL,
         imatge VARCHAR(40) NOT NULL,
         genere_musical VARCHAR(40) NOT NULL,
-        PRIMARY KEY (id)
+        id_canço INT NOT NULL,
+        PRIMARY KEY (id),
+        CONSTRAINT fk_artista_canço FOREIGN KEY (id_canço) REFERENCES Canço (id)
     );
 
 CREATE TABLE
@@ -33,7 +37,10 @@ CREATE TABLE
         id_playlist INT NOT NULL,
         id_album INT NOT NULL,
         id_artista INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_canço_playlist FOREIGN KEY (id_playlist) REFERENCES Playlist (id),
+        CONSTRAINT fk_canço_album FOREIGN KEY (id_album) REFERENCES Album (id),
+        CONSTRAINT fk_canço_artista FOREIGN KEY (id_artista) REFERENCES Artista (id)
     );
 
 CREATE TABLE
@@ -41,7 +48,9 @@ CREATE TABLE
         id INT NOT NULL AUTO_INCREMENT,
         id_album INT NOT NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_like_album_album FOREIGN KEY (id_album) REFERENCES Album (id),
+        CONSTRAINT fk_like_album_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
 
 CREATE TABLE
@@ -49,7 +58,9 @@ CREATE TABLE
         id INT NOT NULL AUTO_INCREMENT,
         id_canço INT NOT NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_like_canço_canço FOREIGN KEY (id_canço) REFERENCES Canço (id),
+        CONSTRAINT fk_like_canço_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
 
 CREATE TABLE
@@ -59,7 +70,8 @@ CREATE TABLE
         num_ordre VARCHAR(20) NOT NULL,
         total FLOAT NOT NULL,
         id_subscripcio INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_pagament_subscripcio FOREIGN KEY (id_subscripcio) REFERENCES Subscripcio (id)
     );
 
 CREATE TABLE
@@ -67,7 +79,8 @@ CREATE TABLE
         id INT NOT NULL,
         username_paypal VARCHAR(20) NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_paypal_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
 
 CREATE TABLE
@@ -76,7 +89,9 @@ CREATE TABLE
         tipus ENUM('actives', 'esborrades') NOT NULL,
         id_canço INT NOT NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_playlist_canço FOREIGN KEY (id_canço) REFERENCES Canço (id),
+        CONSTRAINT fk_playlist_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
 
 CREATE TABLE
@@ -84,7 +99,9 @@ CREATE TABLE
         id INT NOT NULL AUTO_INCREMENT,
         id_artista INT NOT NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_seguir_artista_artista FOREIGN KEY (id_artista) REFERENCES Artista (id),
+        CONSTRAINT fk_seguir_artista_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
 
 CREATE TABLE
@@ -98,7 +115,10 @@ CREATE TABLE
         id_usuari INT NOT NULL,
         id_targeta INT NOT NULL,
         id_paypal INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_subscripcio_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id),
+        CONSTRAINT fk_subscripcio_targeta FOREIGN KEY (id_targeta) REFERENCES Targeta (id),
+        CONSTRAINT fk_subscripcio_paypal FOREIGN KEY (id_paypal) REFERENCES Paypal (id)
     );
 
 CREATE TABLE
@@ -108,7 +128,8 @@ CREATE TABLE
         caducitat DATE NOT NULL,
         codi_seguretat VARCHAR(20) NOT NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_targeta_usuari FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
 
 CREATE TABLE
@@ -127,7 +148,8 @@ CREATE TABLE
         pais VARCHAR(20) NOT NULL,
         email VARCHAR(20) NOT NULL,
         id_playlist INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT fk_usuari_playlist FOREIGN KEY (id_playlist) REFERENCES Playlist (id)
     );
 
 ALTER TABLE Subscripcio
