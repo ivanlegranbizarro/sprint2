@@ -174,13 +174,42 @@ VALUES (
 INSERT INTO
     Factura (
         id_empleat,
+        created_at,
         id_client,
         quantitat,
         id_ullera,
         preu,
         pagat
     )
-VALUES (1, 1, 1, 1, 100, 1);
+VALUES (    
+        1,
+        '2020-01-01 00:00:00',
+        1,
+        1,
+        1,
+        100,
+        1
+    );
+
+INSERT INTO
+    Factura (
+        id_empleat,
+        created_at,
+        id_client,
+        quantitat,
+        id_ullera,
+        preu,
+        pagat
+    )
+VALUES (    
+        2,
+        '2021-01-01 00:00:00',
+        2,
+        1,
+        1,
+        100,
+        1
+    );
 
 -- Llista el total de factures d'un client/a en un període determinat.
 
@@ -189,4 +218,4 @@ SELECT
 FROM Factura
 WHERE
     id_client = 1
-    AND created_at BETWEEN '2020-01-01 00:00:00' AND '2020-01-01 00:00:00';
+    AND created_at BETWEEN '2020-01-01 00:00:00' AND '2020-12-31 23:59:59';
