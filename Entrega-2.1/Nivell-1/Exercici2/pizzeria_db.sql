@@ -13,8 +13,6 @@ CREATE TABLE
         Provincia VARCHAR(20) NOT NULL,
         Codi_postal VARCHAR(20) NOT NULL,
         Telefon VARCHAR(20) NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_comanda INT NOT NULL,
         id_empleat INT NOT NULL,
         PRIMARY KEY (id)
@@ -30,8 +28,6 @@ CREATE TABLE
         Localitat VARCHAR(25) NOT NULL,
         Provincia VARCHAR(25) NOT NULL,
         Telefon VARCHAR(25) NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_comanda INT NOT NULL,
         PRIMARY KEY (id)
     );
