@@ -107,26 +107,8 @@ CREATE TABLE
         CONSTRAINT fk_ticket_comanda FOREIGN KEY (id_comanda) REFERENCES Comanda (id)
     );
 
-ALTER TABLE Botiga
-ADD
-    CONSTRAINT FK_Comanda_TO_Botiga FOREIGN KEY (id_comanda) REFERENCES Comanda (id),
-ADD
-    CONSTRAINT FK_Empleat_TO_Botiga FOREIGN KEY (id_empleat) REFERENCES Empleat (id);
-
-ALTER TABLE Client
-ADD
-    CONSTRAINT FK_Comanda_TO_Client FOREIGN KEY (id_comanda) REFERENCES Comanda (id);
-
-ALTER TABLE Empleat
-ADD
-    CONSTRAINT FK_Ticket_TO_Empleat FOREIGN KEY (id_ticket) REFERENCES Ticket (id);
-
-ALTER TABLE Producte
-ADD
-    CONSTRAINT FK_Categoria_TO_Producte FOREIGN KEY (id_categoria) REFERENCES Categoria (id);
- 
 
 
 /*  Pizzeria:
-Llista quants productes de categoria 'Begudes' s'han venut en una determinada localitat.
-Llista quantes comandes ha efectuat un determinat empleat/da. */
+ Llista quants productes de categoria 'Begudes' s'han venut en una determinada localitat.
+ Llista quantes comandes ha efectuat un determinat empleat/da. */
