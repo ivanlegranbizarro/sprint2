@@ -77,3 +77,9 @@ ADD
 ALTER TABLE Ullera
 ADD
     CONSTRAINT FK_Proveidor_TO_Ullera FOREIGN KEY (id_proveidor) REFERENCES Proveidor (id);
+
+/* Òptica:
+
+Llista el total de factures d'un client/a en un període determinat.
+Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
+Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica. */

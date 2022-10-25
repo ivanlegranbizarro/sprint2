@@ -124,3 +124,9 @@ ADD
 ALTER TABLE Producte
 ADD
     CONSTRAINT FK_Categoria_TO_Producte FOREIGN KEY (id_categoria) REFERENCES Categoria (id);
+ 
+
+
+/*  Pizzeria:
+Llista quants productes de categoria 'Begudes' s'han venut en una determinada localitat.
+Llista quantes comandes ha efectuat un determinat empleat/da. */
