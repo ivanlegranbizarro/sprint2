@@ -83,3 +83,12 @@ ADD
 Llista el total de factures d'un client/a en un període determinat.
 Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
 Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica. */
+
+-- Insertar datos
+INSERT INTO Empleat (nom) VALUES ('Pepito');
+INSERT INTO Empleat (nom) VALUES ('Juanito');
+
+INSERT INTO Client (nom, cognom, codi_postal, email, telefon, id_empleat) VALUES ('Parménides', 'Perez', '08001', 'parmenides@gmail.com', '666666666', 1);
+INSERT INTO Client (nom, cognom, codi_postal, email, telefon, id_empleat) VALUES ('Sócrates', 'Perez', '08001', 'socrates@perez', '666666666', 2);
+
+INSERT INTO Ullera (MARCA, graduacio_1, graduacio_2, Muntura, Color, Preu, created_at, updated_at, id_proveidor) VALUES ('Ray-Ban', 1.5, 1.7, 'Pasta', 'Negre', 100, '2020-01-01 00:00:00', '2020-01-01 00:00:00', 1);
