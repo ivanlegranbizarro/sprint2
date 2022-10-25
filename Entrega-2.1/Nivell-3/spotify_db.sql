@@ -9,8 +9,7 @@ CREATE TABLE
         id INT NOT NULL AUTO_INCREMENT,
         titol VARCHAR(20) NOT NULL,
         portada VARCHAR(40) NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
+        publicacio DATE NOT NULL,
         id_artista INT NOT NULL,
         id_canço INT NOT NULL,
         PRIMARY KEY (id)
@@ -22,8 +21,6 @@ CREATE TABLE
         nom VARCHAR(20) NOT NULL,
         imatge VARCHAR(40) NOT NULL,
         genere_musical VARCHAR(40) NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         PRIMARY KEY (id)
     );
 
@@ -33,8 +30,6 @@ CREATE TABLE
         titol VARCHAR(20) NOT NULL,
         duracio FLOAT NOT NULL,
         reproduccions BIGINT NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_playlist INT NOT NULL,
         id_album INT NOT NULL,
         id_artista INT NOT NULL,
@@ -44,8 +39,6 @@ CREATE TABLE
 CREATE TABLE
     Like_album (
         id INT NOT NULL AUTO_INCREMENT,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_album INT NOT NULL,
         id_usuari INT NOT NULL,
         PRIMARY KEY (id)
@@ -54,8 +47,6 @@ CREATE TABLE
 CREATE TABLE
     Like_canço (
         id INT NOT NULL AUTO_INCREMENT,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_canço INT NOT NULL,
         id_usuari INT NOT NULL,
         PRIMARY KEY (id)
@@ -82,8 +73,6 @@ CREATE TABLE
 CREATE TABLE
     Playlist (
         id INT NOT NULL AUTO_INCREMENT,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         tipus ENUM('actives', 'esborrades') NOT NULL,
         id_canço INT NOT NULL,
         id_usuari INT NOT NULL,
@@ -93,8 +82,6 @@ CREATE TABLE
 CREATE TABLE
     Seguir_artista (
         id INT NOT NULL AUTO_INCREMENT,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_artista INT NOT NULL,
         id_usuari INT NOT NULL,
         PRIMARY KEY (id)
@@ -139,8 +126,6 @@ CREATE TABLE
         codi_postal VARCHAR(20) NOT NULL,
         pais VARCHAR(20) NOT NULL,
         email VARCHAR(20) NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
         id_playlist INT NOT NULL,
         PRIMARY KEY (id)
     );
