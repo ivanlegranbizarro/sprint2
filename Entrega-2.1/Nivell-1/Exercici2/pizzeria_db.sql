@@ -68,7 +68,7 @@ CREATE TABLE
     Producte (
         id INT NOT NULL AUTO_INCREMENT,
         Nom VARCHAR(25) NOT NULL,
-        Descripcio VARCHAR(25) NOT NULL,
+        Descripcio VARCHAR(50) NOT NULL,
         Imatge VARCHAR(100) NOT NULL,
         Preu FLOAT NOT NULL,
         Tipus ENUM(
@@ -140,7 +140,8 @@ VALUES (
         '934567890',
         2,
         2
-    )
+    );
+
 INSERT INTO
     Client (
         Nom,
@@ -170,7 +171,8 @@ VALUES (
         'Barcelona',
         '934567890',
         2
-    )
+    );
+
 INSERT INTO
     Comanda (
         tipus,
@@ -194,7 +196,8 @@ VALUES (
         '2020-01-01 00:00:00',
         2,
         2
-    )
+    );
+
 INSERT INTO
     Empleat (
         Nom,
@@ -221,7 +224,8 @@ VALUES (
         'repartidor',
         2,
         2
-    )
+    );
+
 INSERT INTO
     Producte (
         Nom,
@@ -256,10 +260,12 @@ VALUES (
         'beguda',
         2,
         2
-    )
+    );
+
 INSERT INTO
     Categoria (Nom, id_producte)
-VALUES ('Pizza', 1), ('Pizza', 2), ('Begudes', 3)
+VALUES ('Pizza', 1), ('Pizza', 2), ('Begudes', 3);
+
 INSERT INTO
     Ticket (
         created_at,
