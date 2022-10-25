@@ -1434,125 +1434,126 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <foreign-key id="383" parent="307" name="fk_categoria_producte">
-      <ColNames>id_producte</ColNames>
-      <RefColNames>id</RefColNames>
-      <RefTableName>Producte</RefTableName>
-    </foreign-key>
-    <index id="384" parent="307" name="PRIMARY">
+    <index id="383" parent="307" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="385" parent="307" name="fk_categoria_producte">
-      <ColNames>id_producte</ColNames>
-      <Type>btree</Type>
-    </index>
-    <key id="386" parent="307" name="PRIMARY">
+    <key id="384" parent="307" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="387" parent="308" name="id">
+    <column id="385" parent="308" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="388" parent="308" name="Nom">
+    <column id="386" parent="308" name="Nom">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="389" parent="308" name="Cognom">
+    <column id="387" parent="308" name="Cognom">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="390" parent="308" name="Adreça">
+    <column id="388" parent="308" name="Adreça">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="391" parent="308" name="Codi_postal">
+    <column id="389" parent="308" name="Codi_postal">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="392" parent="308" name="Localitat">
+    <column id="390" parent="308" name="Localitat">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="393" parent="308" name="Provincia">
+    <column id="391" parent="308" name="Provincia">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="394" parent="308" name="Telefon">
+    <column id="392" parent="308" name="Telefon">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>8</Position>
     </column>
-    <column id="395" parent="308" name="id_comanda">
+    <column id="393" parent="308" name="id_comanda">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>9</Position>
     </column>
-    <index id="396" parent="308" name="PRIMARY">
+    <index id="394" parent="308" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <key id="397" parent="308" name="PRIMARY">
+    <key id="395" parent="308" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="398" parent="309" name="id">
+    <column id="396" parent="309" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="399" parent="309" name="tipus">
+    <column id="397" parent="309" name="tipus">
       <DataType>enum(&apos;botiga&apos;, &apos;domicili&apos;)|0e</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="400" parent="309" name="Quantitat">
+    <column id="398" parent="309" name="Quantitat">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="401" parent="309" name="created_at">
+    <column id="399" parent="309" name="created_at">
       <DataType>timestamp|0s</DataType>
       <Position>4</Position>
     </column>
-    <column id="402" parent="309" name="updated_at">
+    <column id="400" parent="309" name="updated_at">
       <Comment>entrega</Comment>
       <DataType>timestamp|0s</DataType>
       <Position>5</Position>
     </column>
-    <column id="403" parent="309" name="id_client">
+    <column id="401" parent="309" name="id_client">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="404" parent="309" name="id_botiga">
+    <column id="402" parent="309" name="id_botiga">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <foreign-key id="405" parent="309" name="fk_comanda_client">
+    <column id="403" parent="309" name="id_producte">
+      <DataType>int|0s</DataType>
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+    </column>
+    <foreign-key id="404" parent="309" name="fk_comanda_client">
       <ColNames>id_client</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>Client</RefTableName>
     </foreign-key>
-    <foreign-key id="406" parent="309" name="fk_comanda_botiga">
+    <foreign-key id="405" parent="309" name="fk_comanda_botiga">
       <ColNames>id_botiga</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>Botiga</RefTableName>
+    </foreign-key>
+    <foreign-key id="406" parent="309" name="fk_comanda_producte">
+      <ColNames>id_producte</ColNames>
+      <RefColNames>id</RefColNames>
+      <RefTableName>Producte</RefTableName>
     </foreign-key>
     <index id="407" parent="309" name="PRIMARY">
       <ColNames>id</ColNames>
@@ -1567,123 +1568,122 @@ sys|schema||mysql.sys|localhost|TRIGGER|G</Grants>
       <ColNames>id_botiga</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="410" parent="309" name="PRIMARY">
+    <index id="410" parent="309" name="fk_comanda_producte">
+      <ColNames>id_producte</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="411" parent="309" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="411" parent="310" name="id">
+    <column id="412" parent="310" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="412" parent="310" name="Nom">
+    <column id="413" parent="310" name="Nom">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="413" parent="310" name="Cognom">
+    <column id="414" parent="310" name="Cognom">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="414" parent="310" name="NIF">
+    <column id="415" parent="310" name="NIF">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="415" parent="310" name="Telefon">
+    <column id="416" parent="310" name="Telefon">
       <DataType>varchar(20)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="416" parent="310" name="tipus">
+    <column id="417" parent="310" name="tipus">
       <DataType>enum(&apos;cuiner&apos;, &apos;repartidor&apos;, &apos;en_botiga&apos;)|0e</DataType>
       <Position>6</Position>
     </column>
-    <column id="417" parent="310" name="id_botiga">
+    <column id="418" parent="310" name="id_botiga">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="418" parent="310" name="id_ticket">
+    <column id="419" parent="310" name="id_ticket">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>8</Position>
     </column>
-    <foreign-key id="419" parent="310" name="fk_empleat_botiga">
+    <foreign-key id="420" parent="310" name="fk_empleat_botiga">
       <ColNames>id_botiga</ColNames>
       <RefColNames>id</RefColNames>
       <RefTableName>Botiga</RefTableName>
     </foreign-key>
-    <index id="420" parent="310" name="PRIMARY">
+    <index id="421" parent="310" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="421" parent="310" name="fk_empleat_botiga">
+    <index id="422" parent="310" name="fk_empleat_botiga">
       <ColNames>id_botiga</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="422" parent="310" name="PRIMARY">
+    <key id="423" parent="310" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <Primary>1</Primary>
       <UnderlyingIndexName>PRIMARY</UnderlyingIndexName>
     </key>
-    <column id="423" parent="311" name="id">
+    <column id="424" parent="311" name="id">
       <AutoIncrement>1</AutoIncrement>
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>1</Position>
     </column>
-    <column id="424" parent="311" name="Nom">
+    <column id="425" parent="311" name="Nom">
       <DataType>varchar(25)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>2</Position>
     </column>
-    <column id="425" parent="311" name="Descripcio">
-      <DataType>varchar(25)|0s</DataType>
+    <column id="426" parent="311" name="Descripcio">
+      <DataType>varchar(50)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>3</Position>
     </column>
-    <column id="426" parent="311" name="Imatge">
-      <DataType>varchar(100)|0s</DataType>
+    <column id="427" parent="311" name="Imatge">
+      <DataType>varchar(255)|0s</DataType>
       <NotNull>1</NotNull>
       <Position>4</Position>
     </column>
-    <column id="427" parent="311" name="Preu">
+    <column id="428" parent="311" name="Preu">
       <DataType>float|0s</DataType>
       <NotNull>1</NotNull>
       <Position>5</Position>
     </column>
-    <column id="428" parent="311" name="Tipus">
+    <column id="429" parent="311" name="Tipus">
       <DataType>enum(&apos;pizza&apos;, &apos;beguda&apos;, &apos;hamburguesa&apos;)|0e</DataType>
       <NotNull>1</NotNull>
       <Position>6</Position>
     </column>
-    <column id="429" parent="311" name="id_categoria">
+    <column id="430" parent="311" name="id_categoria">
       <DataType>int|0s</DataType>
       <NotNull>1</NotNull>
       <Position>7</Position>
     </column>
-    <column id="430" parent="311" name="id_comanda">
-      <DataType>int|0s</DataType>
-      <NotNull>1</NotNull>
-      <Position>8</Position>
-    </column>
-    <foreign-key id="431" parent="311" name="fk_producte_comanda">
-      <ColNames>id_comanda</ColNames>
+    <foreign-key id="431" parent="311" name="fk_producte_categoria">
+      <ColNames>id_categoria</ColNames>
       <RefColNames>id</RefColNames>
-      <RefTableName>Comanda</RefTableName>
+      <RefTableName>Categoria</RefTableName>
     </foreign-key>
     <index id="432" parent="311" name="PRIMARY">
       <ColNames>id</ColNames>
       <Type>btree</Type>
       <Unique>1</Unique>
     </index>
-    <index id="433" parent="311" name="fk_producte_comanda">
-      <ColNames>id_comanda</ColNames>
+    <index id="433" parent="311" name="fk_producte_categoria">
+      <ColNames>id_categoria</ColNames>
       <Type>btree</Type>
     </index>
     <key id="434" parent="311" name="PRIMARY">
