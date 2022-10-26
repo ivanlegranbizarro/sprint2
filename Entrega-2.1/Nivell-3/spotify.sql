@@ -136,5 +136,6 @@ CREATE TABLE
         caducitat DATE NOT NULL,
         codi_seguretat INTEGER NOT NULL,
         id_usuari INT NOT NULL,
-        PRIMARY KEY (id)
+        PRIMARY KEY (id),
+        CONSTRAINT FK_Usuari_TO_Targeta FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
