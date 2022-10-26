@@ -1,3 +1,4 @@
+-- Active: 1666769354989@@127.0.0.1@3306@tienda
 
 
 DROP DATABASE IF EXISTS tienda;
@@ -39,3 +40,22 @@ INSERT INTO producto VALUES(9, 'Portátil Ideapd 320', 444, 2);
 INSERT INTO producto VALUES(10, 'Impresora HP Deskjet 3720', 59.99, 3);
 INSERT INTO producto VALUES(11, 'Impresora HP Laserjet Pro M26nw', 180, 3);
 
+-- Llista el nom de tots els productes que hi ha en la taula producto.
+
+SELECT nombre FROM producto;
+
+-- Llista els noms i els preus de tots els productes de la taula producto.
+
+SELECT nombre, precio FROM producto;
+
+-- Llista totes les columnes de la taula producto.
+
+SELECT * FROM producto;
+
+-- Llista el nom dels productes, el preu en euros i el preu en dòlars estatunidencs (USD).
+
+SELECT nombre, precio, precio * 1.12 FROM producto;
+
+-- Llista el nom dels productes, el preu en euros i el preu en dòlars estatunidencs (USD). Utilitza els següents àlies per a les columnes: nom de producto, euros, dòlars.
+
+SELECT nombre AS 'nom de producto', precio AS euros, precio * 1.12 AS dòlars FROM producto;
