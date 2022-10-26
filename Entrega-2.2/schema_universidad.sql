@@ -1,3 +1,5 @@
+-- Active: 1666782552703@@127.0.0.1@3306@tienda
+
 DROP DATABASE IF EXISTS universidad;
 
 CREATE DATABASE universidad CHARACTER SET utf8mb4;
@@ -1629,21 +1631,110 @@ INSERT INTO alumno_se_matricula_asignatura VALUES (19, 10, 5);
 
 -- Retorna un llistat amb el primer cognom, segon cognom i el nom de tots els/les alumnes. El llistat haurà d'estar ordenat alfabèticament de menor a major pel primer cognom, segon cognom i nom.
 
+SELECT
+    persona.apellido1,
+    persona.apellido2,
+    persona.nombre
+FROM persona
+WHERE persona.tipo = 'alumno'
+ORDER BY
+    persona.apellido1,
+    persona.apellido2,
+    persona.nombre;
+
 -- Esbrina el nom i els dos cognoms dels alumnes que no han donat d'alta el seu número de telèfon en la base de dades.
+
+SELECT
+    persona.nombre,
+    persona.apellido1,
+    persona.apellido2
+FROM persona
+WHERE
+    persona.tipo = 'alumno'
+    AND persona.telefono IS NULL;
 
 -- Retorna el llistat dels alumnes que van néixer en 1999.
 
+SELECT
+    persona.nombre,
+    persona.apellido1,
+    persona.apellido2
+FROM persona
+WHERE
+    persona.tipo = 'alumno'
+    AND persona.fecha_nacimiento BETWEEN '1999-01-01' AND '1999-12-31';
+
 -- Retorna el llistat de professors/es que no han donat d'alta el seu número de telèfon en la base de dades i a més el seu NIF acaba en K.
+
+SELECT
+    persona.nombre,
+    persona.apellido1,
+    persona.apellido2
+FROM persona
+WHERE
+    persona.tipo = 'profesor'
+    AND persona.telefono IS NULL
+    AND persona.nif LIKE '%K';
 
 -- Retorna el llistat de les assignatures que s'imparteixen en el primer quadrimestre, en el tercer curs del grau que té l'identificador 7.
 
+SELECT asignatura.nombre
+FROM asignatura
+WHERE
+    asignatura.curso = 3
+    AND asignatura.cuatrimestre = 1
+    AND id_grado = 7;
+
 -- Retorna un llistat dels professors/es juntament amb el nom del departament al qual estan vinculats. El llistat ha de retornar quatre columnes, primer cognom, segon cognom, nom i nom del departament. El resultat estarà ordenat alfabèticament de menor a major pels cognoms i el nom.
+
+SELECT
+    persona.apellido1,
+    persona.apellido2,
+    persona.nombre,
+    departamento.nombre
+FROM persona
+    INNER JOIN profesor ON persona.id = profesor.id_departamento
+    INNER JOIN departamento ON profesor.id_departamento = departamento.id
+WHERE persona.tipo = 'profesor'
+ORDER BY
+    persona.apellido1,
+    persona.apellido2,
+    persona.nombre;
 
 -- Retorna un llistat amb el nom de les assignatures, any d'inici i any de fi del curs escolar de l'alumne/a amb NIF 26902806M.
 
+SELECT
+    asignatura.nombre,
+    curso_escolar.anyo_inicio,
+    curso_escolar.anyo_fin
+FROM asignatura
+    INNER JOIN alumno_se_matricula_asignatura ON asignatura.id = alumno_se_matricula_asignatura.id_asignatura
+    INNER JOIN curso_escolar ON alumno_se_matricula_asignatura.id_curso_escolar = curso_escolar.id
+    INNER JOIN persona ON alumno_se_matricula_asignatura.id_alumno = persona.id
+WHERE persona.nif = '26902806M';
+
 -- Retorna un llistat amb el nom de tots els departaments que tenen professors/es que imparteixen alguna assignatura en el Grau en Enginyeria Informàtica (Pla 2015).
 
+SELECT
+    DISTINCT departamento.nombre
+FROM departamento
+    INNER JOIN profesor ON departamento.id = profesor.id_departamento
+    INNER JOIN asignatura ON profesor.id_departamento = asignatura.id_profesor
+WHERE
+    asignatura.nombre = 'Grau en Enginyeria Informàtica (Pla 2015)';
+
 -- Retorna un llistat amb tots els alumnes que s'han matriculat en alguna assignatura durant el curs escolar 2018/2019.
+
+SELECT
+    DISTINCT persona.nombre,
+    persona.apellido1,
+    persona.apellido2
+FROM persona
+    INNER JOIN alumno_se_matricula_asignatura ON persona.id = alumno_se_matricula_asignatura.id_alumno
+    INNER JOIN curso_escolar ON alumno_se_matricula_asignatura.id_curso_escolar = curso_escolar.id
+WHERE
+    curso_escolar.anyo_inicio = 2018
+    AND curso_escolar.anyo_fin = 2019;
 
 -- Resol les 6 següents consultes utilitzant les clàusules LEFT JOIN i RIGHT JOIN.
 
