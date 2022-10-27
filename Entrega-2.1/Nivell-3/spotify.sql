@@ -139,3 +139,4 @@ CREATE TABLE
         PRIMARY KEY (id),
         CONSTRAINT FK_Usuari_TO_Targeta FOREIGN KEY (id_usuari) REFERENCES Usuari (id)
     );
+
