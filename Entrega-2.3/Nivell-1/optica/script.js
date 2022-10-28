@@ -63,7 +63,6 @@ async function run () {
       }
     ] );
     const pedidosResult = await pedidos.insertMany( [
-      // Indicar el id del empleado que ha realizado el pedido, cliente que lo ha realizado, proveedor que lo ha enviado, gafa que se ha pedido y la cantidad de gafas pedidas y calcular el precio total del pedido
       {
         _id: 1, empleado: {
           _id: 1, nombre: 'Empleado 1'
