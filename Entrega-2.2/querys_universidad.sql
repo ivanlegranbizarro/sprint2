@@ -1,3 +1,4 @@
+-- Active: 1666782552703@@127.0.0.1@3306@universidad
 SELECT persona.apellido1, persona.apellido2, persona.nombre FROM persona WHERE persona.tipo = 'alumno' ORDER BY persona.apellido1, persona.apellido2, persona.nombre; 
 
 SELECT persona.nombre, persona.apellido1, persona.apellido2 FROM persona WHERE persona.tipo = 'alumno' AND persona.telefono IS NULL; 
