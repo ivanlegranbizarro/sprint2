@@ -1,3 +1,5 @@
+-- Active: 1666782552703@@127.0.0.1@3306@cul_ampolla_db
+
 DROP DATABASE IF EXISTS pizzeria_db;
 
 CREATE DATABASE pizzeria_db;
@@ -13,7 +15,6 @@ CREATE TABLE
         Provincia VARCHAR(20) NOT NULL,
         Codi_postal VARCHAR(20) NOT NULL,
         Telefon VARCHAR(20) NOT NULL,
-        id_comanda INT NOT NULL,
         id_empleat INT NOT NULL,
         PRIMARY KEY (id)
     );
@@ -43,38 +44,16 @@ CREATE TABLE
             'beguda',
             'hamburguesa'
         ) NOT NULL,
-        id_categoria INT NULL,
-        PRIMARY KEY (id),
-        FOREIGN KEY (id_categoria) REFERENCES Categoria(id)
+        PRIMARY KEY (id)
     );
 
--- table Categoria is only used to categorize pizzas
-
 CREATE TABLE
-    Categoria(
+    Categoria (
         id INT NOT NULL AUTO_INCREMENT,
         Nom VARCHAR(25) NOT NULL,
-        PRIMARY KEY (id),
-        CHECK (Producte.Tipus = 'pizza')
-    );
-
-CREATE TABLE
-    Comanda (
-        id INT NOT NULL AUTO_INCREMENT,
-        tipus ENUM('botiga', 'domicili') NOT NULL,
-        Quantitat INTEGER NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL COMMENT 'entrega',
-        id_client INT NOT NULL,
-        id_botiga INT NOT NULL,
         id_producte INT NOT NULL,
-        id_empleat INT NOT NULL,
-        canvi_diners BOOLEAN NOT NULL,
-        tipus_pagament ENUM('targeta', 'efectiu', 'app') NOT NULL,
-        total FLOAT NOT NULL,
-        pagat BOOLEAN NOT NULL,
         PRIMARY KEY (id),
-        CONSTRAINT fk_comanda_client FOREIGN KEY (id_client) REFERENCES Client (id)
+        FOREIGN KEY (id_producte) REFERENCES Producte(id)
     );
 
 CREATE TABLE
@@ -89,10 +68,29 @@ CREATE TABLE
             'repartidor',
             'en_botiga'
         ) NULL,
+        PRIMARY KEY (id)
+    );
+
+CREATE TABLE
+    Comanda (
+        id INT NOT NULL AUTO_INCREMENT,
+        tipus ENUM('botiga', 'domicili') NOT NULL,
+        Quantitat INTEGER NOT NULL,
+        created_at timestamp NULL,
+        updated_at timestamp NULL COMMENT 'entrega',
+        id_client INT NOT NULL,
+        id_producte INT NOT NULL,
+        id_empleat INT NOT NULL,
         id_botiga INT NOT NULL,
-        id_ticket INT NOT NULL,
+        canvi_diners BOOLEAN NOT NULL,
+        tipus_pagament ENUM('targeta', 'efectiu', 'app') NOT NULL,
+        total FLOAT NOT NULL DEFAULT 0,
+        pagat BOOLEAN NOT NULL,
         PRIMARY KEY (id),
-        CONSTRAINT fk_empleat_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id)
+        CONSTRAINT fk_comanda_client FOREIGN KEY (id_client) REFERENCES Client (id),
+        FOREIGN KEY (id_producte) REFERENCES Producte(id),
+        CONSTRAINT fk_comanda_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
+        CONSTRAINT fk_comanda_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id)
     );
 
 INSERT INTO
@@ -103,7 +101,6 @@ INSERT INTO
         Provincia,
         Codi_postal,
         Telefon,
-        id_comanda,
         id_empleat
     )
 VALUES (
@@ -113,7 +110,6 @@ VALUES (
         'Barcelona',
         '08001',
         '934567890',
-        1,
         1
     );
 
@@ -125,8 +121,7 @@ INSERT INTO
         Codi_postal,
         Localitat,
         Provincia,
-        Telefon,
-        id_comanda
+        Telefon
     )
 VALUES (
         'Pep',
@@ -135,41 +130,73 @@ VALUES (
         '08001',
         'Barcelona',
         'Barcelona',
-        '934567890',
-        1
+        '934567890'
     );
 
-/ /
 INSERT INTO
     Producte (
         Nom,
         Descripcio,
         Imatge,
         Preu,
-        Tipus,
-        id_categoria
+        Tipus
     )
 VALUES (
-        'Coca-Cola',
-        'Beguda refrescant',
-        'https://www.coca-cola.es/content/dam/journey/es/es/private/2019/03/26/5c9a1b0e-1c1c-4b1c-8c1c-6c9a1b0e1c1c/5c9a1b0e-1c1c-4b1c-8c1c-6c9a1b0e1c1c.jpg',
-        1.5,
-        'beguda',
-        1
+        'Pizza',
+        'Pizza de la casa',
+        'https://www.pizzahut.es/sites/default/files/styles/medium/public/2019-03/PH_Web_Pizza_Margarita_1.png?itok=Z8ZQZ2Zz',
+        10.00,
+        'pizza'
     ), (
-        'Pizza Margarita',
-        'Pizza amb tomàquet i formatge',
-        'https://www.cocinayvino.com/wp-content/uploads/2018/05/pizza-margarita.jpg',
-        5,
-        'pizza',
-        2
+        'Coca-Cola',
+        'Coca-Cola',
+        'https://www.coca-cola.es/content/dam/journey/es/es/private/2019/01/24/1548331600000-coca-cola-0-33l.png',
+        1.50,
+        'beguda'
     ), (
         'Hamburguesa',
-        'Hamburguesa amb formatge',
-        'https://www.cocinayvino.com/wp-content/uploads/2018/05/pizza-margarita.jpg',
-        5,
-        'hamburguesa',
-        3
+        'Hamburguesa de la casa',
+        'https://www.hamburguesas.com/wp-content/uploads/2019/03/hamburguesa-queso-1.jpg',
+        5.00,
+        'hamburguesa'
+    ), (
+        'Coca-Cola',
+        'Coca-Cola',
+        'https://www.coca-cola.es/content/dam/journey/es/es/private/2019/01/24/1548331600000-coca-cola-0-33l.png',
+        1.50,
+        'beguda'
+    );
+
+INSERT INTO
+    `Empleat` (
+        `id`,
+        `Nom`,
+        `Cognom`,
+        `NIF`,
+        `Telefon`,
+        `tipus`
+    )
+VALUES (
+        1,
+        'Pep',
+        'Garcia',
+        '12345678A',
+        '934567890',
+        'cuiner'
+    ), (
+        2,
+        'Pepa',
+        'Garcia',
+        '12345678A',
+        '934567890',
+        'repartidor'
+    ), (
+        3,
+        'Josep',
+        'Altramús',
+        '12345678A',
+        '934567890',
+        'en_botiga'
     );
 
 INSERT INTO
@@ -179,10 +206,12 @@ INSERT INTO
         created_at,
         updated_at,
         id_client,
-        id_botiga,
         id_producte,
         id_empleat,
+        id_botiga,
         canvi_diners,
+        tipus_pagament,
+        total,
         pagat
     )
 VALUES (
@@ -194,40 +223,52 @@ VALUES (
         1,
         1,
         1,
-        1,
+        0,
+        'targeta',
+        10.00,
         1
-    );
-
-INSERT INTO
-    Empleat (
-        Nom,
-        Cognom,
-        NIF,
-        Telefon,
-        tipus,
-        id_botiga,
-        id_ticket
-    )
-VALUES (
-        'Sócrates',
-        'Garcia',
-        '12345678A',
-        '934567890',
-        'cuiner',
+    ), (
+        'botiga',
         1,
+        '2020-01-01 00:00:00',
+        '2020-01-01 00:00:00',
+        1,
+        2,
+        1,
+        1,
+        0,
+        'targeta',
+        1.50,
+        1
+    ), (
+        'botiga',
+        1,
+        '2020-01-01 00:00:00',
+        '2020-01-01 00:00:00',
+        1,
+        3,
+        1,
+        1,
+        0,
+        'targeta',
+        5.00,
+        1
+    ), (
+        'botiga',
+        1,
+        '2020-01-01 00:00:00',
+        '2020-01-01 00:00:00',
+        1,
+        4,
+        1,
+        1,
+        0,
+        'targeta',
+        1.50,
         1
     );
 
 /*  Pizzeria:
  Llista quants productes de tipus 'Begudes' s'han venut en una determinada localitat.*/
-
-SELECT
-    COUNT(Producte.Tipus) AS 'Quantitat de begudes venudes'
-FROM Comanda
-    INNER JOIN Producte ON Comanda.id_producte = Producte.id
-    INNER JOIN Botiga ON Comanda.id_botiga = Botiga.id
-WHERE
-    Producte.Tipus = 'beguda'
-    AND Botiga.Localitat = 'Barcelona';
 
 /* Llista quantes comandes ha efectuat un determinat empleat/da. */

@@ -21,10 +21,9 @@ CREATE TABLE
         codi_postal VARCHAR(20) NOT NULL,
         email VARCHAR(40) NULL,
         telefon VARCHAR(20) NOT NULL,
-        id_empleat INT NOT NULL,
-        PRIMARY KEY (id),
-        CONSTRAINT fk_client_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
-        CONSTRAINT fk_client_client FOREIGN KEY (id_empleat) REFERENCES Client (id)
+        client_recomana INT NULL,
+        PRIMARY KEY (id), 
+        CONSTRAINT fk_client_recomana FOREIGN KEY (client_recomana) REFERENCES Client(id)
     );
 
 CREATE TABLE
@@ -77,16 +76,14 @@ INSERT INTO
         cognom,
         codi_postal,
         email,
-        telefon,
-        id_empleat
+        telefon
     )
 VALUES (
         'Pere',
         'Perez',
         '08001',
         'perez@perez.com',
-        '666666666',
-        1
+        '666666666'
     );
 
 INSERT INTO
@@ -141,6 +138,7 @@ VALUES (
         100
     );
 
+
 -- Llista el total de factures d'un client/a en un període determinat.
 
 SELECT
@@ -152,12 +150,12 @@ WHERE
 
 -- Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
 
-SELECT u.marca
-FROM Ullera u
-    INNER JOIN Client c ON u.id_client = c.id
+SELECT
+    marca
+FROM Ullera
 WHERE
-    c.id_empleat = 1
-    AND u.created_at BETWEEN '2019-01-01' AND '2019-12-31';
+    id_empleat = 1
+    AND created_at BETWEEN '2019-01-01' AND '2019-12-31';
 
 -- Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica.
 
