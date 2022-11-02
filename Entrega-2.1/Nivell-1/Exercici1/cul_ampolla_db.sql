@@ -1,4 +1,5 @@
--- Active: 1666703113030@@127.0.0.1@3306@cul_ampolla_db
+-- Active: 1666782552703@@127.0.0.1@3306@album
+
 DROP DATABASE IF EXISTS cul_ampolla_db;
 
 CREATE DATABASE cul_ampolla_db;
@@ -21,9 +22,9 @@ CREATE TABLE
         email VARCHAR(40) NULL,
         telefon VARCHAR(20) NOT NULL,
         id_empleat INT NOT NULL,
-        id_client INT NULL COMMENT 'Recomanat',
         PRIMARY KEY (id),
-        CONSTRAINT fk_client_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id)
+        CONSTRAINT fk_client_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
+        CONSTRAINT fk_client_client FOREIGN KEY (id_empleat) REFERENCES Client (id)
     );
 
 CREATE TABLE
@@ -42,33 +43,23 @@ CREATE TABLE
 CREATE TABLE
     Ullera (
         id INT NOT NULL AUTO_INCREMENT,
-        MARCA VARCHAR(20) NOT NULL,
-        graduacio_1 FLOAT NOT NULL,
-        graduacio_2 FLOAT NULL,
+        marca VARCHAR(20) NOT NULL,
+        graduacio_dreta FLOAT NOT NULL,
+        graduacio_esquerra FLOAT NULL,
         Muntura VARCHAR(20) NOT NULL,
         Color VARCHAR(20) NOT NULL,
         Preu FLOAT NOT NULL,
         created_at TIMESTAMP NULL,
         updated_at TIMESTAMP NULL,
         id_proveidor INT NOT NULL,
-        PRIMARY KEY (id),
-        CONSTRAINT fk_ullera_proveidor FOREIGN KEY (id_proveidor) REFERENCES Proveidor (id)
-    );
-
-CREATE TABLE
-    Factura (
-        id INT NOT NULL AUTO_INCREMENT,
-        created_at timestamp default current_timestamp,
-        id_empleat INT NOT NULL,
         id_client INT NOT NULL,
+        id_empleat INT NOT NULL,
         quantitat INTEGER NOT NULL,
-        id_ullera INT NOT NULL,
-        preu FLOAT NOT NULL,
-        pagat BOOLEAN NOT NULL,
+        pagat FLOAT NOT NULL,
         PRIMARY KEY (id),
-        CONSTRAINT fk_factura_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
-        CONSTRAINT fk_factura_client FOREIGN KEY (id_client) REFERENCES Client (id),
-        CONSTRAINT fk_factura_ullera FOREIGN KEY (id_ullera) REFERENCES Ullera (id)
+        CONSTRAINT fk_ullera_proveidor FOREIGN KEY (id_proveidor) REFERENCES Proveidor (id),
+        CONSTRAINT fk_ullera_client FOREIGN KEY (id_client) REFERENCES Client (id),
+        CONSTRAINT fk_ullera_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id)
     );
 
 /* Òptica:
@@ -119,14 +110,20 @@ VALUES (
     );
 
 INSERT INTO
-    Ullera (
-        MARCA,
-        graduacio_1,
-        graduacio_2,
+    Ullera(
+        marca,
+        graduacio_dreta,
+        graduacio_esquerra,
         Muntura,
         Color,
         Preu,
-        id_proveidor
+        created_at,
+        updated_at,
+        id_proveidor,
+        id_client,
+        id_empleat,
+        quantitat,
+        pagat
     )
 VALUES (
         'Marca1',
@@ -135,81 +132,37 @@ VALUES (
         'Muntura1',
         'Color1',
         100,
-        1
-    );
-
-INSERT INTO
-    Factura (
-        id_empleat,
-        created_at,
-        id_client,
-        quantitat,
-        id_ullera,
-        preu,
-        pagat
-    )
-VALUES (
-        1,
+        '2019-01-01 00:00:00',
         '2019-01-01 00:00:00',
         1,
         1,
         1,
-        100,
-        1
-    );
-
-INSERT INTO
-    Factura (
-        id_empleat,
-        created_at,
-        id_client,
-        quantitat,
-        id_ullera,
-        preu,
-        pagat
-    )
-VALUES (
         1,
-        '2020-05-01 00:00:00',
-        1,
-        1,
-        1,
-        100,
-        1
+        100
     );
 
 -- Llista el total de factures d'un client/a en un període determinat.
-SELECT
-    SUM(f.quantitat) AS total_factures
-FROM
-    Factura f
-WHERE
-    f.id_client = 1
-    AND f.created_at BETWEEN '2019-01-01 00:00:00' AND '2020-05-01 00:00:00';
 
+SELECT
+    SUM(Preu) AS Total_factura
+FROM Ullera
+WHERE
+    id_client = 1
+    AND created_at BETWEEN '2019-01-01' AND '2019-12-31';
 
 -- Llista els diferents models d'ulleres que ha venut un empleat/da durant un any.
 
-SELECT
-    u.MARCA
-FROM
-    Factura f
-        INNER JOIN
-    Ullera u ON f.id_ullera = u.id
+SELECT u.marca
+FROM Ullera u
+    INNER JOIN Client c ON u.id_client = c.id
 WHERE
-    f.id_empleat = 1
-    AND f.created_at BETWEEN '2019-01-01 00:00:00' AND '2020-05-01 00:00:00';
-
+    c.id_empleat = 1
+    AND u.created_at BETWEEN '2019-01-01' AND '2019-12-31';
 
 -- Llista els diferents proveïdors que han subministrat ulleres venudes amb èxit per l'òptica.
 
-SELECT
-    p.*
-FROM
-    Factura f
-        INNER JOIN
-    Ullera u ON f.id_ullera = u.id
-        INNER JOIN
-    Proveidor p ON u.id_proveidor = p.id
+SELECT p.*
+FROM Ullera u
+    INNER JOIN Proveidor p ON u.id_proveidor = p.id
 WHERE
-    f.pagat = 1;
+    u.created_at BETWEEN '2019-01-01' AND '2019-12-31';
