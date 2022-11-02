@@ -271,4 +271,16 @@ VALUES (
 /*  Pizzeria:
  Llista quants productes de tipus 'Begudes' s'han venut en una determinada localitat.*/
 
+SELECT COUNT(*) AS 'Quantitat'
+FROM Comanda
+    INNER JOIN Producte ON Comanda.id_producte = Producte.id
+    INNER JOIN Botiga ON Comanda.id_botiga = Botiga.id
+WHERE
+    Producte.Tipus = 'beguda'
+    AND Botiga.Localitat = 'Barcelona';
+
 /* Llista quantes comandes ha efectuat un determinat empleat/da. */
+
+SELECT COUNT(*) AS 'Quantitat'
+FROM Comanda
+WHERE id_empleat = 1;
