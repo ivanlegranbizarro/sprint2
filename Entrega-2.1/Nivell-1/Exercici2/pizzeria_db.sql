@@ -51,7 +51,7 @@ CREATE TABLE
 -- table Categoria is only used to categorize pizzas
 
 CREATE TABLE
-    Categegoria(
+    Categoria(
         id INT NOT NULL AUTO_INCREMENT,
         Nom VARCHAR(25) NOT NULL,
         PRIMARY KEY (id),
@@ -219,20 +219,15 @@ VALUES (
     );
 
 /*  Pizzeria:
- Llista quants productes de categoria 'Begudes' s'han venut en una determinada localitat.*/
+ Llista quants productes de tipus 'Begudes' s'han venut en una determinada localitat.*/
 
-SELECT COUNT(*) AS 'Quantitat'
-FROM Producte
-    INNER JOIN Categoria ON Producte.id_categoria = Categoria.id
-    INNER JOIN Comanda ON Producte.id = Comanda.id_producte
+SELECT
+    COUNT(Producte.Tipus) AS 'Quantitat de begudes venudes'
+FROM Comanda
+    INNER JOIN Producte ON Comanda.id_producte = Producte.id
     INNER JOIN Botiga ON Comanda.id_botiga = Botiga.id
 WHERE
-    Categoria.Nom = 'Begudes'
+    Producte.Tipus = 'beguda'
     AND Botiga.Localitat = 'Barcelona';
 
 /* Llista quantes comandes ha efectuat un determinat empleat/da. */
-
-SELECT COUNT(*) AS 'Quantitat'
-FROM Comanda
-    INNER JOIN Empleat ON Comanda.id_botiga = Empleat.id_botiga
-WHERE Empleat.Nom = 'Sócrates';
