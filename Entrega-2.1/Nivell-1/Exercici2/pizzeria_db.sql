@@ -28,17 +28,8 @@ CREATE TABLE
         Localitat VARCHAR(25) NOT NULL,
         Provincia VARCHAR(25) NOT NULL,
         Telefon VARCHAR(25) NOT NULL,
-        id_comanda INT NOT NULL,
         PRIMARY KEY (id)
     );
-
-CREATE TABLE
-    Categoria (
-        id INT NOT NULL AUTO_INCREMENT,
-        Nom VARCHAR(20) NOT NULL,
-        id_producte INT NOT NULL,
-        PRIMARY KEY (id)
-    ) COMMENT 'si el producte és pizza';
 
 CREATE TABLE
     Producte (
@@ -52,9 +43,19 @@ CREATE TABLE
             'beguda',
             'hamburguesa'
         ) NOT NULL,
-        id_categoria INT NOT NULL,
+        id_categoria INT NULL,
         PRIMARY KEY (id),
-        CONSTRAINT fk_producte_categoria FOREIGN KEY (id_categoria) REFERENCES Categoria (id)
+        FOREIGN KEY (id_categoria) REFERENCES Categoria(id)
+    );
+
+-- table Categoria is only used to categorize pizzas
+
+CREATE TABLE
+    Categegoria(
+        id INT NOT NULL AUTO_INCREMENT,
+        Nom VARCHAR(25) NOT NULL,
+        PRIMARY KEY (id),
+        CHECK (Producte.Tipus = 'pizza')
     );
 
 CREATE TABLE
@@ -67,10 +68,13 @@ CREATE TABLE
         id_client INT NOT NULL,
         id_botiga INT NOT NULL,
         id_producte INT NOT NULL,
+        id_empleat INT NOT NULL,
+        canvi_diners BOOLEAN NOT NULL,
+        tipus_pagament ENUM('targeta', 'efectiu', 'app') NOT NULL,
+        total FLOAT NOT NULL,
+        pagat BOOLEAN NOT NULL,
         PRIMARY KEY (id),
-        CONSTRAINT fk_comanda_client FOREIGN KEY (id_client) REFERENCES Client (id),
-        CONSTRAINT fk_comanda_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id),
-        CONSTRAINT fk_comanda_producte FOREIGN KEY (id_producte) REFERENCES Producte (id)
+        CONSTRAINT fk_comanda_client FOREIGN KEY (id_client) REFERENCES Client (id)
     );
 
 CREATE TABLE
@@ -89,22 +93,6 @@ CREATE TABLE
         id_ticket INT NOT NULL,
         PRIMARY KEY (id),
         CONSTRAINT fk_empleat_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id)
-    );
-
-CREATE TABLE
-    Ticket (
-        id INT NOT NULL AUTO_INCREMENT,
-        created_at timestamp NULL,
-        updated_at timestamp NULL,
-        tipus_pagament ENUM('credit', 'metal', 'app') NOT NULL,
-        Adreça VARCHAR(20) NOT NULL COMMENT 'Si comanda domicili',
-        Total FLOAT NOT NULL,
-        canvi_diners BOOLEAN NULL DEFAULT False,
-        id_empleat INT NOT NULL,
-        id_comanda INT NOT NULL,
-        PRIMARY KEY (id),
-        CONSTRAINT fk_ticket_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
-        CONSTRAINT fk_ticket_comanda FOREIGN KEY (id_comanda) REFERENCES Comanda (id)
     );
 
 INSERT INTO
@@ -151,14 +139,7 @@ VALUES (
         1
     );
 
-INSERT INTO Categoria (Nom, id_producte) VALUES ('Begudes', 1);
-
-INSERT INTO Categoria (Nom, id_producte) VALUES ('Pizzes', 2);
-
-INSERT INTO
-    Categoria (Nom, id_producte)
-VALUES ('Hamburgueses', 3);
-
+/ /
 INSERT INTO
     Producte (
         Nom,
@@ -192,20 +173,26 @@ VALUES (
     );
 
 INSERT INTO
-    Comanda (
+    Comanda(
         tipus,
         Quantitat,
         created_at,
         updated_at,
         id_client,
         id_botiga,
-        id_producte
+        id_producte,
+        id_empleat,
+        canvi_diners,
+        pagat
     )
 VALUES (
         'botiga',
         1,
         '2020-01-01 00:00:00',
         '2020-01-01 00:00:00',
+        1,
+        1,
+        1,
         1,
         1,
         1
@@ -227,28 +214,6 @@ VALUES (
         '12345678A',
         '934567890',
         'cuiner',
-        1,
-        1
-    );
-
-INSERT INTO
-    Ticket (
-        created_at,
-        updated_at,
-        tipus_pagament,
-        Adreça,
-        Total,
-        canvi_diners,
-        id_empleat,
-        id_comanda
-    )
-VALUES (
-        '2020-01-01 00:00:00',
-        '2020-01-01 00:00:00',
-        'credit',
-        'Carrer de la Pau',
-        1.5,
-        0,
         1,
         1
     );
