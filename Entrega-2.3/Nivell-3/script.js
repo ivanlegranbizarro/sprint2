@@ -24,7 +24,7 @@ async function run () {
     const artistaSegunGenero = database.collection( 'artistaSegunGenero' );
     const generoMusical = database.collection( 'generoMusical' );
 
-    const datosUsuarios = await usuarios.insertMany( [ {
+    const datosUsuarios =  usuarios.insertMany( [ {
       _id: 1,
       nombre: 'Arturo',
       apellidos: 'Perez',
@@ -49,7 +49,7 @@ async function run () {
       tipo_usuario: 'Premium',
     } ] );
 
-    const datosTarjetaCredito = await tarjetaCredito.insertMany( [ {
+    const datosTarjetaCredito =  tarjetaCredito.insertMany( [ {
       _id: 1,
       numero: '1234567890123456',
       fechaCaducidad: '2020-10-10',
@@ -67,7 +67,7 @@ async function run () {
       }
     } ] );
 
-    const datosPayPal = await PayPal.insertMany( [ {
+    const datosPayPal =  PayPal.insertMany( [ {
       _id: 1,
       usernamePaypal: 'usuario1Paypal',
       usuario: {
@@ -81,7 +81,7 @@ async function run () {
       }
     } ] );
 
-    const datosPago = await pago.insertMany( [ {
+    const datosPago =  pago.insertMany( [ {
       _id: 1,
       fecha: '2020-10-10',
       importe: 10,
@@ -103,7 +103,7 @@ async function run () {
       }
     } ] );
 
-    const datosCanciones = await canciones.insertMany( [ {
+    const datosCanciones =  canciones.insertMany( [ {
       _id: 1,
       nombre: 'Cancion 1',
       duracion: '3:00',
@@ -119,7 +119,7 @@ async function run () {
       reproducciones: 0
     } ] );
 
-    const datosArtista = await artistas.insertMany( [ {
+    const datosArtista =  artistas.insertMany( [ {
       _id: 1,
       nombre: 'Artista 1',
       fechaNacimiento: '2020-10-10',
@@ -131,7 +131,7 @@ async function run () {
       retrato: 'https://imagenretratoartista.com'
     } ] );
 
-    const datosPlaylists = await playlists.insertMany( [ {
+    const datosPlaylists =  playlists.insertMany( [ {
       _id: 1,
       nombre: 'Playlist 1',
       fechaCreacion: '2020-10-10',
@@ -155,7 +155,7 @@ async function run () {
       }
     } ] );
 
-    const datosAlbum = await album.insertMany( [ {
+    const datosAlbum =  album.insertMany( [ {
       _id: 1,
       nombre: 'Album 1',
       fechaLanzamiento: '2020-10-10',
@@ -179,7 +179,7 @@ async function run () {
       },
     } ] );
 
-    const datosSuscripciones = await suscripciones.insertMany( [ {
+    const datosSuscripciones =  suscripciones.insertMany( [ {
       _id: 1,
       fechaInicio: '2020-10-10',
       fechaFin: '2020-10-10',
@@ -201,7 +201,7 @@ async function run () {
       }
     } ] );
 
-    const datosLikeAlbum = await likeAlbum.insertMany( [ {
+    const datosLikeAlbum =  likeAlbum.insertMany( [ {
       _id: 1,
       usuario: {
         _id: 1,
@@ -219,7 +219,7 @@ async function run () {
       }
     } ] );
 
-    const datosLikeCancion = await likeCancion.insertMany( [ {
+    const datosLikeCancion =  likeCancion.insertMany( [ {
       _id: 1,
       usuario: {
         _id: 1,
@@ -237,7 +237,7 @@ async function run () {
       }
     } ] );
 
-    const datosSeguirPlaylist = await seguirPlaylist.insertMany( [ {
+    const datosSeguirPlaylist =  seguirPlaylist.insertMany( [ {
       _id: 1,
       usuario: {
         _id: 1,
@@ -255,7 +255,7 @@ async function run () {
       }
     } ] );
 
-    const datosSeguirArtista = await seguirArtista.insertMany( [ {
+    const datosSeguirArtista =  seguirArtista.insertMany( [ {
       _id: 1,
       usuario: {
         _id: 1,
@@ -273,7 +273,7 @@ async function run () {
       }
     } ] );
 
-    const datosGeneroMusical = await generoMusical.insertMany( [ {
+    const datosGeneroMusical =  generoMusical.insertMany( [ {
       _id: 1,
       nombre: 'Rock'
     }, {
@@ -281,7 +281,7 @@ async function run () {
       nombre: 'Flamenco'
     } ] );
 
-    const datosArtistaSegunGenero = await artistaSegunGenero.insertMany( [ {
+    const datosArtistaSegunGenero =  artistaSegunGenero.insertMany( [ {
       _id: 1,
       artista: {
         _id: 1,

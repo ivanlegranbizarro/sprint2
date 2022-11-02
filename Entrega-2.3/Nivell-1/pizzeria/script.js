@@ -16,7 +16,7 @@ async function run () {
     const comanda = database.collection( 'comanda' );
     const pedidos = database.collection( 'pedidos' );
 
-    const datosTienda = await tienda.insertOne( {
+    const datosTienda =  tienda.insertOne( {
       _id: 1,
       nombre: 'Pizzeria La Mamma',
       direccion: 'Carrer de la Pau',
@@ -27,7 +27,7 @@ async function run () {
       codigoPostal: '08001',
     } );
 
-    const datosClientes = await clientes.insertMany(
+    const datosClientes =  clientes.insertMany(
       [ {
         _id: 1,
         nombre: 'Pepito',
@@ -50,7 +50,7 @@ async function run () {
         codigoPostal: '08001',
       } ] );
 
-    const datosEmpleados = await empleados.insertMany( [ {
+    const datosEmpleados =  empleados.insertMany( [ {
       _id: 1,
       nombre: 'Arturo',
       apellidos: 'Perez',
@@ -67,7 +67,7 @@ async function run () {
       NIF: '12345678B',
     } ] );
 
-    const datosProductos = await productos.insertMany( [ {
+    const datosProductos =  productos.insertMany( [ {
       _id: 1,
       nombre: 'Pizza Margarita',
       descripcion: 'Pizza con tomate, mozzarella y albahaca',
@@ -97,7 +97,7 @@ async function run () {
     }
     ] );
 
-    const datosCategoria = await categoria.insertMany( [ {
+    const datosCategoria =  categoria.insertMany( [ {
       _id: 1,
       nombre: 'pizza',
     }, {
@@ -111,7 +111,7 @@ async function run () {
     ] );
 
 
-    const datosComanda = await comanda.insertMany( [ {
+    const datosComanda =  comanda.insertMany( [ {
       _id: 1,
       fecha: '2020-12-01',
       cliente: {
@@ -153,7 +153,7 @@ async function run () {
       total: 12
     } ] );
 
-    const datosPedidos = await pedidos.insertMany( [
+    const datosPedidos =  pedidos.insertMany( [
       {
         _id: 1,
         fecha: '2020-12-01',
