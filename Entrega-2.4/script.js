@@ -10,11 +10,10 @@ async function run () {
     const database = client.db( 'restaurants' );
     const restaurants = database.collection( 'restaurants' );
 
-    // Insertar many restaurants
 
-    const datosRestaurants = restaurants.insertMany([
+    const datosRestaurants = restaurants.insertMany( [
 
-    ]);
+    ] );
 
     console.log( 'Datos insertados correctamente' );
   }
