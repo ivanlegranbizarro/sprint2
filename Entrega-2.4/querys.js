@@ -41,14 +41,26 @@ async function run () {
     // Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que contenen 'ces' en les últimes tres lletres en el seu nom.
     collection.find( { name: { $regex: /ces$/ } }, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que contenen 'Reg' en qualsevol lloc del seu nom.
+    collection.find( { name: { $regex: /Reg/ } }, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
     // Escriu una consulta per trobar els restaurants que pertanyen al Bronx i preparen plats Americans o xinesos.
+    collection.find( { borough: 'Bronx', $or: [ { cuisine: 'American ' }, { cuisine: 'Chinese' } ] } );
     // Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per aquells restaurants que pertanyen a Staten Island, Queens, Bronx o Brooklyn.
+    collection.find( { borough: { $in: [ 'Staten Island', 'Queens', 'Bronx', 'Brooklyn' ] } }, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que NO pertanyen a Staten Island, Queens, Bronx o Brooklyn.
+    collection.find( { borough: { $nin: [ 'Staten Island', 'Queens', 'Bronx', 'Brooklyn' ] } }, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que aconsegueixin una nota menor que 10.
+    collection.find( { grades: { $elemMatch: { score: { $lt: 10 } } } }, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name, borough i cuisine per a aquells restaurants que preparen marisc ('seafood') excepte si són 'American ', 'Chinese' o el name del restaurant comença amb lletres 'Wil'.
+    collection.find( { cuisine: 'Seafood', $nor: [ { cuisine: 'American ' }, { cuisine: 'Chinese' }, { name: { $regex: /^Wil/ } } ] }, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants que aconsegueixin un grade de "A" i un score d'11 amb un ISODate "2014-08-11T00:00:00Z".
+    collection.find( { grades: { $elemMatch: { grade: 'A', score: 11, date: new Date( '2014-08-11T00:00:00Z' ) } } }, { projection: { restaurant_id: 1, name: 1, grades: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants on el 2n element de l'array de graus conté un grade de "A" i un score 9 amb un ISODate "2014-08-11T00:00:00Z".
+    collection.find( { grades: { $elemMatch: { grade: 'A', score: 9, date: new Date( '2014-08-11T00:00:00Z' ) } } }, { projection: { restaurant_id: 1, name: 1, grades: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name, adreça i ubicació geogràfica per a aquells restaurants on el segon element de l'array coord conté un valor entre 42 i 52.
+
+    collection.find( { 'address.coord': { $elemMatch: { $gt: 42, $lt: 52 } } }, { projection: { restaurant_id: 1, name: 1, address: 1 } } );
+    
+
     // Escriu una consulta per organitzar els restaurants per nom en ordre ascendent.
     // Escriu una consulta per organitzar els restaurants per nom en ordre descendent.
     // Escriu una consulta per organitzar els restaurants pel nom de la cuisine en ordre ascendent i pel barri en ordre descendent.
