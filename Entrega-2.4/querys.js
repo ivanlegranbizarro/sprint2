@@ -57,18 +57,23 @@ async function run () {
     // Escriu una consulta per trobar el restaurant_id, name i grades per a aquells restaurants on el 2n element de l'array de graus conté un grade de "A" i un score 9 amb un ISODate "2014-08-11T00:00:00Z".
     collection.find( { grades: { $elemMatch: { grade: 'A', score: 9, date: new Date( '2014-08-11T00:00:00Z' ) } } }, { projection: { restaurant_id: 1, name: 1, grades: 1 } } );
     // Escriu una consulta per trobar el restaurant_id, name, adreça i ubicació geogràfica per a aquells restaurants on el segon element de l'array coord conté un valor entre 42 i 52.
-
     collection.find( { 'address.coord': { $elemMatch: { $gt: 42, $lt: 52 } } }, { projection: { restaurant_id: 1, name: 1, address: 1 } } );
-    
-
     // Escriu una consulta per organitzar els restaurants per nom en ordre ascendent.
+    collection.find().sort( { name: 1 } );
     // Escriu una consulta per organitzar els restaurants per nom en ordre descendent.
+    collection.find().sort( { name: -1 } );
     // Escriu una consulta per organitzar els restaurants pel nom de la cuisine en ordre ascendent i pel barri en ordre descendent.
+    collection.find().sort( { cuisine: 1, borough: -1 } );
     // Escriu una consulta per saber si les direccions contenen el carrer.
+    collection.find( { 'address.street': { $exists: true } } );
     // Escriu una consulta que seleccioni tots els documents en la col·lecció de restaurants on els valors del camp coord és de tipus Double.
+    collection.find( { 'address.coord': { $type: 'double' } } );
     // Escriu una consulta que seleccioni el restaurant_id, name i grade per a aquells restaurants que retornen 0 com a residu després de dividir algun dels seus score per 7.
+    collection.find( { grades: { $elemMatch: { score: { $mod: [ 7, 0 ] } } } }, { projection: { restaurant_id: 1, name: 1, grades: 1 } } );
     // Escriu una consulta per trobar el name de restaurant, borough, longitud, latitud i cuisine per a aquells restaurants que contenen 'mon' en algun lloc del seu name.
+    collection.find( { name: { $regex: /mon/ } }, { projection: { name: 1, borough: 1, 'address.coord': 1, cuisine: 1 } } );
     // Escriu una consulta per trobar el name de restaurant, borough, longitud, latitud i cuisine per a aquells restaurants que contenen 'Mad' com a primeres tres lletres del seu name.
+    collection.find( { name: { $regex: /^Mad/ } }, { projection: { name: 1, borough: 1, 'address.coord': 1, cuisine: 1 } } );
 
   }
   catch ( error ) {
