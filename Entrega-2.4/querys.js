@@ -1,5 +1,3 @@
-use('restaurants');
-
 
 db.restaurants.find( {} );
 db.restaurants.find( {}, { projection: { restaurant_id: 1, name: 1, borough: 1, cuisine: 1 } } );
