@@ -1,5 +1,4 @@
--- Active: 1666782552703@@127.0.0.1@3306@cul_ampolla_db
-
+-- Active: 1666782552703@@127.0.0.1@3306@pizzeria_db
 DROP DATABASE IF EXISTS pizzeria_db;
 
 CREATE DATABASE pizzeria_db;
@@ -32,20 +31,16 @@ CREATE TABLE
         PRIMARY KEY (id)
     );
 
-CREATE TABLE
-    Producte (
-        id INT NOT NULL AUTO_INCREMENT,
-        Nom VARCHAR(25) NOT NULL,
-        Descripcio VARCHAR(50) NOT NULL,
-        Imatge VARCHAR(255) NOT NULL,
-        Preu FLOAT NOT NULL,
-        Tipus ENUM(
-            'pizza',
-            'beguda',
-            'hamburguesa'
-        ) NOT NULL,
-        PRIMARY KEY (id)
-    );
+CREATE TABLE Producte (
+    id INT NOT NULL AUTO_INCREMENT,
+    Nom VARCHAR(25) NOT NULL,
+    Descripcio VARCHAR(50) NOT NULL,
+    Imatge VARCHAR(255) NOT NULL,
+    Preu FLOAT NOT NULL,
+    Tipus ENUM('pizza', 'beguda', 'hamburguesa') NOT NULL,
+    Quantitat INT NOT NULL,
+    PRIMARY KEY (id)
+);
 
 CREATE TABLE
     Categoria (
@@ -71,26 +66,37 @@ CREATE TABLE
         PRIMARY KEY (id)
     );
 
+-- create inner join table for Producte and Comanda
+
+CREATE TABLE Comanda (
+    id INT NOT NULL AUTO_INCREMENT,
+    tipus ENUM('botiga', 'domicili') NOT NULL,
+    created_at TIMESTAMP NULL,
+    updated_at TIMESTAMP NULL COMMENT 'entrega',
+    id_client INT NOT NULL,
+    id_empleat INT NOT NULL,
+    id_botiga INT NOT NULL,
+    canvi_diners BOOLEAN NOT NULL,
+    tipus_pagament ENUM('targeta', 'efectiu', 'app') NOT NULL,
+    total FLOAT NOT NULL DEFAULT 0,
+    pagat BOOLEAN NOT NULL,
+    PRIMARY KEY (id),
+    CONSTRAINT fk_comanda_client FOREIGN KEY (id_client)
+        REFERENCES Client (id),
+    CONSTRAINT fk_comanda_empleat FOREIGN KEY (id_empleat)
+        REFERENCES Empleat (id),
+    CONSTRAINT fk_comanda_botiga FOREIGN KEY (id_botiga)
+        REFERENCES Botiga (id)
+);
+
 CREATE TABLE
-    Comanda (
+    Comanda_producte (
         id INT NOT NULL AUTO_INCREMENT,
-        tipus ENUM('botiga', 'domicili') NOT NULL,
-        Quantitat INTEGER NOT NULL,
-        created_at timestamp NULL,
-        updated_at timestamp NULL COMMENT 'entrega',
-        id_client INT NOT NULL,
+        id_comanda INT NOT NULL,
         id_producte INT NOT NULL,
-        id_empleat INT NOT NULL,
-        id_botiga INT NOT NULL,
-        canvi_diners BOOLEAN NOT NULL,
-        tipus_pagament ENUM('targeta', 'efectiu', 'app') NOT NULL,
-        total FLOAT NOT NULL DEFAULT 0,
-        pagat BOOLEAN NOT NULL,
         PRIMARY KEY (id),
-        CONSTRAINT fk_comanda_client FOREIGN KEY (id_client) REFERENCES Client (id),
-        FOREIGN KEY (id_producte) REFERENCES Producte(id),
-        CONSTRAINT fk_comanda_empleat FOREIGN KEY (id_empleat) REFERENCES Empleat (id),
-        CONSTRAINT fk_comanda_botiga FOREIGN KEY (id_botiga) REFERENCES Botiga (id)
+        CONSTRAINT fk_comanda_producte_comanda FOREIGN KEY (id_comanda) REFERENCES Comanda (id),
+        CONSTRAINT fk_comanda_producte_producte FOREIGN KEY (id_producte) REFERENCES Producte (id)
     );
 
 INSERT INTO
@@ -139,32 +145,37 @@ INSERT INTO
         Descripcio,
         Imatge,
         Preu,
-        Tipus
+        Tipus,
+        Quantitat
     )
 VALUES (
         'Pizza',
         'Pizza de la casa',
         'https://www.pizzahut.es/sites/default/files/styles/medium/public/2019-03/PH_Web_Pizza_Margarita_1.png?itok=Z8ZQZ2Zz',
         10.00,
-        'pizza'
+        'pizza',
+        2
     ), (
         'Coca-Cola',
         'Coca-Cola',
         'https://www.coca-cola.es/content/dam/journey/es/es/private/2019/01/24/1548331600000-coca-cola-0-33l.png',
         1.50,
-        'beguda'
+        'beguda',
+        1
     ), (
         'Hamburguesa',
         'Hamburguesa de la casa',
         'https://www.hamburguesas.com/wp-content/uploads/2019/03/hamburguesa-queso-1.jpg',
         5.00,
-        'hamburguesa'
+        'hamburguesa',
+        4
     ), (
         'Coca-Cola',
         'Coca-Cola',
         'https://www.coca-cola.es/content/dam/journey/es/es/private/2019/01/24/1548331600000-coca-cola-0-33l.png',
         1.50,
-        'beguda'
+        'beguda',
+        3
     );
 
 INSERT INTO
@@ -202,11 +213,9 @@ VALUES (
 INSERT INTO
     Comanda(
         tipus,
-        Quantitat,
         created_at,
         updated_at,
         id_client,
-        id_producte,
         id_empleat,
         id_botiga,
         canvi_diners,
@@ -216,71 +225,59 @@ INSERT INTO
     )
 VALUES (
         'botiga',
-        1,
         '2020-01-01 00:00:00',
         '2020-01-01 00:00:00',
         1,
         1,
         1,
         1,
-        0,
         'targeta',
         10.00,
         1
     ), (
         'botiga',
-        1,
         '2020-01-01 00:00:00',
         '2020-01-01 00:00:00',
         1,
-        2,
         1,
         1,
-        0,
+        1,
         'targeta',
-        1.50,
+        10.00,
         1
     ), (
         'botiga',
-        1,
         '2020-01-01 00:00:00',
         '2020-01-01 00:00:00',
         1,
-        3,
         1,
         1,
-        0,
-        'targeta',
-        5.00,
-        1
-    ), (
-        'botiga',
         1,
-        '2020-01-01 00:00:00',
-        '2020-01-01 00:00:00',
-        1,
-        4,
-        1,
-        1,
-        0,
-        'targeta',
-        1.50,
+        'efectiu',
+        20.00,
         1
     );
+INSERT INTO
+    Comanda_producte(id_comanda, id_producte)
+VALUES (1, 1), (2, 2), (3, 3), (3, 4);
 
 /*  Pizzeria:
  Llista quants productes de tipus 'Begudes' s'han venut en una determinada localitat.*/
 
 SELECT COUNT(*) AS 'Quantitat'
-FROM Comanda
-    INNER JOIN Producte ON Comanda.id_producte = Producte.id
-    INNER JOIN Botiga ON Comanda.id_botiga = Botiga.id
+FROM Comanda_producte AS cp
+    INNER JOIN Producte AS p ON cp.id_producte = p.id
+    INNER JOIN Comanda AS c ON cp.id_comanda = c.id
+    INNER JOIN Botiga AS b ON c.id_botiga = b.id
 WHERE
-    Producte.Tipus = 'beguda'
-    AND Botiga.Localitat = 'Barcelona';
+    p.Tipus = 'beguda'
+    AND b.Localitat = 'Barcelona';
 
 /* Llista quantes comandes ha efectuat un determinat empleat/da. */
 
-SELECT COUNT(*) AS 'Quantitat'
-FROM Comanda
-WHERE id_empleat = 1;
+SELECT
+    COUNT(*) AS 'Quantitat'
+FROM
+    Comanda AS c
+WHERE
+    c.id_empleat = 1;
