@@ -1,98 +1,120 @@
-const { MongoClient } = require( 'mongodb' );
+db = db.getSiblingDB( 'optica' );
+db.dropDatabase();
+db = db.getSiblingDB( 'optica' );
 
-const url = 'mongodb://localhost:27017';
+db.createCollection( 'proveidors' );
+db.createCollection( 'clients' );
 
-const client = new MongoClient( url, { useUnifiedTopology: true } );
-
-async function run () {
-  try {
-    await client.connect();
-    const database = client.db( 'optica' );
-    const gafas = database.collection( 'gafas' );
-    const proveedores = database.collection( 'proveedores' );
-    const clientes = database.collection( 'clientes' );
-    const pedidos = database.collection( 'pedidos' );
-    const empleados = database.collection( 'empleados' );
-
-    const gafasResult = await gafas.insertMany( [
-      {
-        _id: 1, marca: 'Ray-Ban', modelo: 'RB 3025', color: 'amarillo', precio: 100, graduacion_1: 1.5, graduacion_2: 0.7,
-      },
-      {
-        _id: 2, marca: 'Ray-Ban', modelo: 'RB 3025', color: 'rojo', precio: 150, graduacion_1: 1.5, graduacion_2: 0.8,
-      },
-      {
-        _id: 3, marca: 'Ray-Ban', modelo: 'RB 3025', color: 'azul', precio: 200, graduacion_1: 1.5, graduacion_2: 0.9,
-      },
-      {
-        _id: 4, marca: 'Ray-Ban', modelo: 'RB 3025', color: 'verde', precio: 90, graduacion_1: 1.5, graduacion_2: 1.0,
+db.proveidors.insertMany(
+  [
+    {
+      _id: 1,
+      nom: 'Proveidor 1',
+      telefon: '123456789',
+      email: 'proveidor1@proveidor.com',
+      NIF: 'A58375890',
+      adreça: {
+        carrer: 'Carrer de la Proveiduria 1',
+        ciutat: 'Barcelona',
+        codi_postal: 08032,
+        pais: 'Espanya'
       }
-    ] );
-
-    const proveedoresResult = await proveedores.insertMany( [
-      {
-        _id: 1, nombre: 'Proveedor 1', direccion: 'Calle de la Proveiduría 1', telefono: 123456789, fax: 1345678235, email: 'proveedor1@gmail.com', ciudad: 'Barcelona', pais: 'España', codigo_postal: 08001, NIF: '12345678A',
-      },
-      {
-        _id: 2, nombre: 'Proveedor 2', direccion: 'Calle de la Proveiduría 2', telefono: 987654321, email: 'proveedor2@gmail', ciudad: 'Madrid', pais: 'España', codigo_postal: 28001, NIF: '87654321B',
-      },
-      {
-        _id: 3, nombre: 'Proveedor 3', direccion: 'Calle de la Proveiduría 3', telefono: 123456789, fax: 1345678235, email: 'proveedor3@gmail.com', ciudad: 'Barcelona', pais: 'España', codigo_postal: 08001, NIF: '12345678C',
-      },
-      {
-        _id: 4, nombre: 'Proveedor 4', direccion: 'Calle de la Proveiduría 4', telefono: 987654321, email: 'proveedor4@gmail', ciudad: 'Madrid', pais: 'España', codigo_postal: 28001, NIF: '87654321D',
+    },
+    {
+      _id: 2,
+      nom: 'Proveidor 2',
+      telefon: '123456789',
+      email: 'proveidor2@proveidor.com',
+      NIF: 'B58375890',
+      adreça: {
+        carrer: 'Carrer de la Proveiduria 2',
+        ciutat: 'Badalona',
+        codi_postal: 08032,
+        pais: 'Espanya'
       }
-    ] );
-    const empleadosResult = await empleados.insertMany( [
-      {
-        _id: 1, nombre: 'Empleado 1'
-      },
-      {
-        _id: 2, nombre: 'Empleado 2'
-      },
-    ] );
+    },
+    {
+      _id: 3,
+      nom: 'Proveidor 3',
+      telefon: '123456789',
+      email: 'proveidor3@proveidor.com',
+      NIF: 'C58375890',
+      adreça: {
+        carrer: 'Carrer de la Proveiduria 3',
+        ciutat: 'Barcelona',
+        codi_postal: 08032,
+        pais: 'Espanya'
+      }
+    }
+  ]
 
-    const clientesResult = await clientes.insertMany( [
+);
+
+db.proveidors.find().pretty();
+
+db.clients.insertMany(
+  [
+    {
+      _id: 1,
+      nom: 'Client 1',
+      adreça_postal: '08010',
+      telefon: '123456789',
+      correu_electronic: 'client1@client1.com',
+      data_registre: '2022-09-12',
+      ulleres:
       {
-        _id: 1, nombre: 'Cliente 1', direccion: 'Calle del Cliente 1', telefono: 123456789, email: 'cliente1@cliente.com', ciudad: 'Barcelona', pais: 'España', codigo_postal: 08001, NIF: '12345678E', recomendado_por: null
-      },
-      {
-        _id: 2, nombre: 'Cliente 2', direccion: 'Calle del Cliente 2', telefono: 987654321, email: 'cliente2@cliente.com', ciudad: 'Madrid', pais: 'España', codigo_postal: 28001, NIF: '87654321F', recomendado_por: {
-          _id: 1, nombre: 'Cliente 1'
+        marca: 'Rayban',
+        graduacio_esquerra: 1.5,
+        graduacio_dreta: 1.5,
+        muntura: {
+          ENUM: [ 'pasta', 'metàl·lica' ],
+          default: 'pasta'
+        },
+        color_muntura: 'marro_caca',
+        preu: 100,
+        proveidor: {
+          $ref: 'Proveidors',
+          $_id: 1
+        },
+        empleat: {
+          cod_emp: 1,
+          nom: 'Empleat 1',
         }
       }
-    ] );
-    const pedidosResult = await pedidos.insertMany( [
-      {
-        _id: 1, empleado: {
-          _id: 1, nombre: 'Empleado 1'
-        }, cliente: {
-          _id: 1, nombre: 'Cliente 1'
-        }, proveedor: {
-          _id: 1, nombre: 'Proveedor 1'
-        }, gafa: {
-          _id: 1, marca: 'Ray-Ban', modelo: 'RB 3025', color: 'amarillo', precio: 100, graduacion_1: 1.5, graduacion_2: 0.7,
-        }, cantidad: 2, precio_total: 200
+    },
+    {
+      _id: 2,
+      nom: 'Client 2',
+      adreça_postal: '08010',
+      telefon: '123456789',
+      correu_electronic: 'pedro@hotmail.com',
+      data_registre: '2022-09-12',
+      client_recomanat: {
+        $ref: 'clients',
+        $_id: 1
       },
+      ulleres:
       {
-        _id: 2, empleado: {
-          _id: 2, nombre: 'Empleado 2'
-        }, cliente: {
-          _id: 2, nombre: 'Cliente 2'
-        }, proveedor: {
-          _id: 2, nombre: 'Proveedor 2'
-        }, gafa: {
-          _id: 2, marca: 'Ray-Ban', modelo: 'RB 3025', color: 'rojo', precio: 150, graduacion_1: 1.5, graduacion_2: 0.8,
-        }, cantidad: 3, precio_total: 450
+        marca: 'Carolina Herrera',
+        graduacio_esquerra: 1.5,
+        graduacio_dreta: 1.5,
+        muntura: {
+          ENUM: [ 'pasta', 'metàl·lica' ],
+          default: 'metàl·lica'
+        },
+        color_muntura: 'color elf',
+        preu: 400,
+        proveidor: {
+          $ref: 'Proveidors',
+          $_id: 2
+        },
+        empleat: {
+          cod_emp: 2,
+          name: 'Empleat 2',
+        }
       }
-    ] );
-  }
-  catch ( error ) {
-    console.log( error );
-  }
-  finally {
-    await client.close();
-  }
-}
+    }
+  ]
+);
 
-run().catch( console.dir );
+db.clients.find().pretty();
