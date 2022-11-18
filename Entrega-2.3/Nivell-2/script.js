@@ -1,311 +1,285 @@
-const { MongoClient } = require( 'mongodb' );
+db = db.getSiblingDB( 'youtube' );
+db.dropDatabase();
+db = db.getSiblingDB( 'youtube' );
 
-const url = 'mongodb://localhost:27017';
+db.createCollection( 'usuaris' );
 
-const client = new MongoClient( url, { useUnifiedTopology: true } );
-
-async function run () {
-  try {
-    await client.connect();
-    const database = client.db( 'youtube' );
-    const usuarios = database.collection( 'usuarios' );
-    const videos = database.collection( 'videos' );
-    const etiquetas = database.collection( 'etiquetas' );
-    const canal = database.collection( 'canal' );
-    const likeVideo = database.collection( 'likeVideo' );
-    const dislikeVideo = database.collection( 'dislikeVideo' );
-    const comentarios = database.collection( 'comentarios' );
-    const suscripciones = database.collection( 'suscripciones' );
-    const playlists = database.collection( 'playlists' );
-    const likeComentario = database.collection( 'likeComentario' );
-    const dislikeComentario = database.collection( 'dislikeComentario' );
-
-    const datosUsuarios = await usuarios.insertMany( [ {
+db.usuaris.insertMany(
+  [
+    {
       _id: 1,
-      nombre: 'Arturo',
-      apellidos: 'Perez',
-      telefono: '934 56 78 90',
-      email: 'usuario1@usuario.com',
-      direccion: 'Carrer de la Pau',
-      localidad: 'Barcelona',
-      provincia: 'Barcelona',
-      codigoPostal: '08001',
-    }, {
-      _id: 2,
-      nombre: 'Rosalía',
-      apellidos: 'MotoMami',
-      telefono: '934 56 78 90',
-      email: 'usuario2@usuario',
-      direccion: 'Carrer de la Pau',
-      localidad: 'Barcelona',
-      provincia: 'Barcelona',
-      codigoPostal: '08001',
-    } ] );
-
-    const datosCanal = await canal.insertOne( {
-      _id: 1,
-      nombre: 'Canal de Arturo',
-      descripcion: 'Canal de Arturo Perez',
-      fechaCreacion: '2020-10-10',
-      fechaModificacion: '2020-10-10',
-      usuario: {
+      email: 'usuari1@usuari1.com',
+      password: '123456',
+      username: 'Arturo',
+      data_naixement: new Date( '1990-01-01' ),
+      sexe: 'GenderFluid',
+      pais: 'Espanya',
+      codi_postal: 08820,
+      canal: {
         _id: 1,
+        nom: 'Me gustan las tortugas',
+        descripcio: 'Canal de tortugas',
+        creacio: new Date( '2019-01-01' ),
+        suscriptors: [
+          {
+            $ref: 'usuaris',
+            $_id: 1
+          },
+          {
+            $ref: 'usuaris',
+            $_id: 2
+          }
+        ]
       }
-    } );
-
-    const datosEtiquetas = await etiquetas.insertMany( [ {
-      _id: 1,
-      nombre: 'Etiqueta 1',
-    }, {
+    },
+    {
       _id: 2,
-      nombre: 'Etiqueta 2',
-    } ] );
-
-
-    const datosVideos = await videos.insertMany( [ {
-      _id: 1,
-      titulo: 'Video 1',
-      descripcion: 'Descripcion del video 1',
-      fecha: '2020-01-01',
-      duracion: '00:01:00',
-      usuario: {
-        _id: 1,
-      },
-      tamaño: '1MB',
-      formato: 'mp4',
-      thumbnail: 'thumbnail1.jpg',
+      email: 'usuari2@usuari2',
+      password: '123456',
+      username: 'Rosalia',
+      data_naixement: '1990-01-01',
+      sexe: 'Dona',
+      pais: 'Espanya',
+      codi_postal: 08020,
       canal: {
         _id: 1,
-      },
-      etiquetas: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      comentarios: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      likes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      dislikes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-    }, {
-      _id: 2,
-      titulo: 'Video 2',
-      descripcion: 'Descripcion del video 2',
-      fecha: '2020-01-01',
-      duracion: '00:01:00',
-      usuario: {
-        _id: 2,
-      },
-      tamaño: '1MB',
-      formato: 'mp4',
-      thumbnail: 'thumbnail2.jpg',
+        nom: 'Motomami Channel',
+        descripcio: 'El canal de les Motomamis',
+        creacio: new Date( '2019-01-01' ),
+        suscriptors: [
+          {
+            $ref: 'usuaris',
+            $_id: 1
+          },
+          {
+            $ref: 'usuaris',
+            $_id: 2
+          }
+        ],
+        playlists: [
+          {
+            _id: 1,
+            nom: 'Ball de la Motomami',
+            data_creacio: new Date( '2019-01-01' ),
+            estat: 'Públic',
+          }
+        ],
+        videos: [
+          {
+            _id: 1,
+            titol: 'Qui és la Motomami?',
+            descripcio: 'La Motomami és una persona molt especial',
+            data_creacio: new Date( '2019-01-01' ),
+            tamany: 400,
+            nom_arxiu: 'Ball.mp4',
+            durada: '00:01:00',
+            miniatura: 'miniatura.jpg',
+            reproduccions: 100,
+            likes: [
+              {
+                usuari: {
+                  $ref: 'usuaris',
+                  $_id: 2,
+                  data: new Date( '2019-01-01' )
+                }
+              }
+            ],
+            dislikes: [
+              {
+                usuari: {
+                  $ref: 'usuaris',
+                  $_id: 1,
+                  data: new Date( '2019-01-01' )
+                }
+              }
+            ],
+            estat: 'Públic',
+            etiquetes: [
+              {
+                $ref: 'etiquetes',
+                $_id: 1
+              }
+            ],
+            playlists: {
+              $ref: 'playlists',
+              $_id: 1
+            },
+            data_pujada: new Date( '2019-01-01' ),
+            etiquetes: [
+              {
+                _id: 1,
+                nom: 'Tutorial de ball',
+                data_creacio: new Date( '2019-01-01' ),
+                estat: 'Privada',
+                usuari_id: {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              }
+            ],
+            comentaris: [
+              {
+                _id: 1,
+                text: 'Molt bon vídeo',
+                data_i_hora: new Date( '2019-01-01' ),
+                likes: [
+                  {
+                    usuari: {
+                      $ref: 'usuaris',
+                      $_id: 1,
+                      data: new Date( '2019-01-01' )
+                    }
+                  }
+                ],
+                dislikes: [
+                  {
+                    usuari: {
+                      $ref: 'usuaris',
+                      $_id: 1,
+                      data: new Date( '2019-01-01' )
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+
+        ]
+      }
+    },
+    {
+      _id: 3,
+      email: 'lidertransformers@gmail.com',
+      password: '123456',
+      username: 'OptimusPrime',
+      data_naixement: '1000 a.c.',
+      sexe: 'Robot',
+      pais: 'Cybertron',
+      codi_postal: 08820,
       canal: {
-        _id: 2,
-      },
-      etiquetas: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      comentarios: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      likes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      dislikes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-    } ] );
+        _id: 3,
+        nom: 'Com liderar un grup de Transformers',
+        descripcio: 'Canal de lideratge',
+        creacio: new Date( '2019-01-01' ),
+        suscriptors: [
+          {
+            $ref: 'usuaris',
+            $_id: 1
+          },
+          {
+            $ref: 'usuaris',
+            $_id: 2
+          }
+        ],
+        playlists: [
+          {
+            _id: 1,
+            nom: 'Lideratge de Transformers: els autobots',
+            data_creacio: new Date( '2019-01-01' ),
+            estat: 'Publica'
+          }
+        ],
+        videos: [
+          {
+            _id: 1,
+            títol: 'Objectes en que es transformen els Transformers',
+            descripció: 'Els Transformers es transformen en objectes que els rodegen',
+            tamany: 1000,
+            nom_arxiu: 'transformers.mp4',
+            durada: '00:10:00',
+            miniatura: 'miniatura-transformer.jpg',
+            reproduccions: 14345,
+            likes: [
+              {
+                usuari: {
+                  $ref: 'usuaris',
+                  $_id: 1,
+                  data: new Date( '2019-01-01' )
+                }
+              }
+            ],
+            dislikes: [
+              {
+                usuari: {
+                  $ref: 'usuaris',
+                  $_id: 2,
+                  data: new Date( '2019-01-01' )
+                }
+              }
+            ],
+            estat: 'Públic',
+            etiquetes: [
+              {
+                $ref: 'etiquetes',
+                $_id: 1
+              },
+              {
+                $ref: 'etiquetes',
+                $_id: 2
+              }
+            ],
+            playlists: {
+              $ref: 'playlist',
+              $_id: 2
+            },
+            data_pujada: new Date( '2019-01-01' ),
+            etiquetes: [
+              {
+                _id: 1,
+                nom: 'Tutorial de lideratge dels Transformers',
+                data_creacio: new Date( '2019-01-01' ),
+                estat: 'Públic',
+                usuari_id: {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              }
+            ],
+            comentaris: [
+              {
+                _id: 1,
+                text: 'Hola, Optimus. Molt bon vídeo. He après moltíssim',
+                data_i_hora: new Date( '2019-01-01' ),
+                likes: [
+                  {
+                    usuari: {
+                      $ref: 'usuaris',
+                      $_id: 2,
+                      data: new Date( '2019-01-01' )
+                    }
+                  },
+                  {
+                    usuari: {
+                      $ref: 'usuaris',
+                      $_id: 1,
+                      data: new Date( '2019-01-01' )
+                    }
+                  }
+                ],
+                dislikes: [
+                  {
+                    usuari: {
+                      $ref: 'usuaris',
+                      $_id: 2,
+                      data: new Date( '2019-01-01' )
+                    }
+                  }
+                ],
+                video_id: {
+                  $ref: 'videos',
+                  $_id: 1
+                },
+                usuari_id: {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+);
 
-    const datoslikeVideo = await likeVideo.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      video: {
-        _id: 1,
-      },
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      video: {
-        _id: 1,
-      },
-    } ] );
-
-    const datosdislikeVideo = await dislikeVideo.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      video: {
-        _id: 1,
-      },
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      video: {
-        _id: 1,
-      },
-    } ] );
-
-    const datosComentarios = await comentarios.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      video: {
-        _id: 1,
-      },
-      fecha: '2020-01-01',
-      texto: 'Comentario 1',
-      likes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      dislikes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      video: {
-        _id: 1,
-      },
-      fecha: '2020-01-01',
-      texto: 'Comentario 2',
-      likes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-      dislikes: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-    } ] );
-
-    const datosSuscripciones = await suscripciones.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      canal: {
-        _id: 1,
-      },
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      canal: {
-        _id: 1,
-      },
-    } ] );
-
-    const datosPlaylists = await playlists.insertMany( [ {
-      _id: 1,
-      nombre: 'Playlist 1',
-      descripcion: 'Descripcion de la playlist 1',
-      fechaCreacion: '2020-01-01',
-      fechaModificacion: '2020-01-01',
-      usuario: {
-        _id: 1,
-      },
-      videos: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-    }, {
-      _id: 2,
-      nombre: 'Playlist 2',
-      descripcion: 'Descripcion de la playlist 2',
-      fechaCreacion: '2020-01-01',
-      fechaModificacion: '2020-01-01',
-      usuario: {
-        _id: 2,
-      },
-      videos: [ {
-        _id: 1,
-      }, {
-        _id: 2,
-      } ],
-    } ] );
-
-    const datosLikeComentario = await likeComentario.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      comentario: {
-        _id: 1,
-      },
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      comentario: {
-        _id: 1,
-      },
-    } ] );
-
-
-    const datosDislikeComentario = await dislikeComentario.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      comentario: {
-        _id: 1,
-      },
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      comentario: {
-        _id: 1,
-      },
-    } ] );
-
-
-    console.log( 'Datos insertados correctamente' );
-  }
-  catch ( error ) {
-    console.log( error );
-  }
-  finally {
-    await client.close();
-  }
-}
-
-run().catch( console.dir );
+db.usuaris.find().pretty();
