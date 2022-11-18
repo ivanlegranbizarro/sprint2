@@ -1,312 +1,263 @@
-const { MongoClient } = require( 'mongodb' );
+db = db.getSiblingDB( 'spotify' );
+db.dropDatabase();
+db = db.getSiblingDB( 'spotify' );
 
-const url = 'mongodb://localhost:27017';
+db.createCollection( 'usuaris' );
+db.createCollection( 'playlists' );
+db.createCollection( 'artistes' );
 
-const client = new MongoClient( url, { useUnifiedTopology: true } );
-
-async function run () {
-  try {
-    await client.connect();
-    const database = client.db( 'spotify' );
-    const usuarios = database.collection( 'usuarios' );
-    const suscripciones = database.collection( 'suscripciones' );
-    const tarjetaCredito = database.collection( 'tarjetaCredito' );
-    const PayPal = database.collection( 'PayPal' );
-    const pago = database.collection( 'pago' );
-    const canciones = database.collection( 'canciones' );
-    const playlists = database.collection( 'playlists' );
-    const artistas = database.collection( 'artistas' );
-    const album = database.collection( 'album' );
-    const likeAlbum = database.collection( 'likeAlbum' );
-    const likeCancion = database.collection( 'likeCancion' );
-    const seguirArtista = database.collection( 'seguirArtista' );
-    const seguirPlaylist = database.collection( 'seguirPlaylist' );
-    const artistaSegunGenero = database.collection( 'artistaSegunGenero' );
-    const generoMusical = database.collection( 'generoMusical' );
-
-    const datosUsuarios =  usuarios.insertMany( [ {
+db.usuaris.insertMany(
+  [
+    {
       _id: 1,
-      nombre: 'Arturo',
-      apellidos: 'Perez',
-      telefono: '934 56 78 90',
-      email: 'usuario1@usuario',
-      direccion: 'Carrer de la Pau',
-      localidad: 'Barcelona',
-      provincia: 'Barcelona',
-      codigoPostal: '08001',
-      tipo_usuario: 'Premium',
-    }, {
-
+      email: 'usuario1@usuario.com',
+      password: 'usuario1password',
+      username: 'usuario1',
+      data_naixement: '1992-09-23',
+      sexe: 'home',
+      pais: 'espanya',
+      codi_postal: 08820,
+      tipus: 'premium',
+      pagament: {
+        _id: 1,
+        targeta: {
+          numero: '1234567890123456',
+          caducitat: '06/25',
+          cvv: 563
+        },
+        data: new Date( '2020-06-01' ),
+        ordre: 3456346,
+        total: 9.99
+      }
+    },
+    {
       _id: 2,
-      nombre: 'Rosalía',
-      apellidos: 'MotoMami',
-      telefono: '934 56 78 90',
-      email: 'usuario2@usuario',
-      direccion: 'Carrer de la Pau',
-      localidad: 'Barcelona',
-      provincia: 'Barcelona',
-      codigoPostal: '08001',
-      tipo_usuario: 'Premium',
-    } ] );
+      email: 'usuario2@usuario2.com',
+      password: 'usuario2password2',
+      username: 'usuario2',
+      data_naixement: '1992-09-23',
+      sexe: 'dona trans',
+      pais: 'espanya',
+      codi_postal: 08820,
+      tipus: 'premium',
+      pagament: {
+        _id: 2,
+        paypal: {
+          usuari: 'usuari2@usuari2.com'
+        },
+        data: new Date( '2022-01-01' ),
+        ordre: '1235',
+        total: 9.99
+      }
+    },
+    {
+      _id: 3,
+      email: 'usuari3@usuari3.com',
+      password: '12345678',
+      username: 'usuario3',
+      data_naixement: '1992-09-23',
+      sexe: 'home',
+      pais: 'espanya',
+      codi_postal: 08044,
+      tipus: 'free'
+    },
+    {
+      _id: 4,
+      email: 'usuario4@usuario4.com',
+      password: '12345678',
+      username: 'usuario4',
+      data_naixement: '1992-09-23',
+      sexe: 'home',
+      pais: 'espanya',
+      codi_postal: 08614,
+      tipus: 'free'
+    }
+  ]
+);
 
-    const datosTarjetaCredito =  tarjetaCredito.insertMany( [ {
+db.usuaris.find().pretty();
+
+db.artistes.insertMany(
+  [
+    {
       _id: 1,
-      numero: '1234567890123456',
-      fechaCaducidad: '2020-10-10',
-      codigoSeguridad: '123',
-      usuario: {
-        _id: 1,
-      }
-    }, {
+      nom: 'Elton John',
+      imatge: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Elton_John_2013.jpg/220px-Elton_John_2013.jpg',
+      artista_relacionat: {
+        $ref: 'artistes',
+        $_id: 2
+      },
+      albums: [
+        {
+          _id: 1,
+          titol: 'Songs ',
+          any_publicacio: 2001,
+          portada: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/Songs_album_cover.jpg/220px-Songs_album_cover.jpg',
+          likes: [
+            {
+              $ref: 'usuaris',
+              $_id: 1
+            },
+            {
+              $ref: 'usuaris',
+              $_id: 2
+            }
+          ],
+          cançons: [
+            {
+              _id: 1,
+              titol: 'I Want Love',
+              durada: '3:45',
+              reproduccions: 567567,
+              album: {
+                $ref: 'albums',
+                $_id: 1
+              },
+              likes: [
+                {
+                  $ref: 'usuaris',
+                  $_id: 1
+                },
+                {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              ]
+            },
+            {
+              _id: 2,
+              titol: 'I Need You To Turn To',
+              durada: '3:45',
+              reproduccions: 567567,
+              album: {
+                $ref: 'albums',
+                $_id: 1
+              },
+              likes: [
+                {
+                  $ref: 'usuaris',
+                  $_id: 1
+                },
+                {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
       _id: 2,
-      numero: '1234567890123456',
-      fechaCaducidad: '2020-10-10',
-      codigoSeguridad: '123',
-      usuario: {
-        _id: 2,
-      }
-    } ] );
+      nom: 'Black Sabbath',
+      imatge: 'https://upload.wikimedia.org/wikipedia/commons/thumb/4/4f/Black-Sabbath.jpg',
+      artista_relacionat: {
+        $ref: 'artistes',
+        $_id: 1
+      },
+      albums: [
+        {
+          _id: 1,
+          titol: 'Paranoid',
+          any_publicacio: 1970,
+          portada: 'https://upload.wikimedia.org/wikipedia/en/thumb/5/5e/Songs_album_cover.jpg/220px-Songs_album_cover.jpg',
+          likes: [
+            {
+              $ref: 'usuaris',
+              $_id: 1
+            },
+            {
+              $ref: 'usuaris',
+              $_id: 2
+            }
+          ],
+          cançons: [
+            {
+              _id: 3,
+              titol: 'War Pigs',
+              durada: '3:45',
+              reproduccions: 567567,
+              album: {
+                $ref: 'albums',
+                $_id: 1
+              },
+              likes: [
+                {
+                  $ref: 'usuaris',
+                  $_id: 1
+                },
+                {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              ]
+            },
+            {
+              _id: 4,
+              titol: 'Hand of Doom',
+              durada: '3:45',
+              reproduccions: 567567,
+              album: {
+                $ref: 'albums',
+                $_id: 1
+              },
+              likes: [
+                {
+                  $ref: 'usuaris',
+                  $_id: 1
+                },
+                {
+                  $ref: 'usuaris',
+                  $_id: 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+);
 
-    const datosPayPal =  PayPal.insertMany( [ {
+db.artistes.find().pretty();
+
+db.playlists.insertMany(
+  [
+    {
       _id: 1,
-      usernamePaypal: 'usuario1Paypal',
-      usuario: {
-        _id: 1,
+      titol: 'Energia pels matins!',
+      camçons: [
+        {
+          canço: {
+            $ref: 'cançons',
+            $_id: 1
+          },
+          usuari: {
+            $ref: 'usuaris',
+            $_id: 1
+          }
+        },
+        {
+          canço: {
+            $ref: 'cançons',
+            $_id: 4
+          },
+          usuari: {
+            $ref: 'usuaris',
+            $_id: 2
+          }
+        }
+      ],
+      data_creacio: new Date( '2021-01-01' ),
+      tipus: 'activa',
+      usuari_creador: {
+        $ref: 'usuaris',
+        $_id: 1
       }
-    }, {
-      _id: 2,
-      usernamePaypal: 'usuario2Paypal',
-      usuario: {
-        _id: 2,
-      }
-    } ] );
+    }
+  ]
+);
 
-    const datosPago =  pago.insertMany( [ {
-      _id: 1,
-      fecha: '2020-10-10',
-      importe: 10,
-      usuario: {
-        _id: 1,
-      },
-      tarjetaCredito: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      fecha: '2020-10-10',
-      importe: 10,
-      usuario: {
-        _id: 2,
-      },
-      PayPal: {
-        _id: 2,
-      }
-    } ] );
 
-    const datosCanciones =  canciones.insertMany( [ {
-      _id: 1,
-      nombre: 'Cancion 1',
-      duracion: '3:00',
-      fechaLanzamiento: '2020-10-10',
-      portada: 'https://imagenportadadisco.com',
-      reproducciones: 0
-    }, {
-      _id: 2,
-      nombre: 'Cancion 2',
-      duracion: '3:00',
-      fechaLanzamiento: '2020-10-10',
-      portada: 'https://imagenportadadisco.com',
-      reproducciones: 0
-    } ] );
-
-    const datosArtista =  artistas.insertMany( [ {
-      _id: 1,
-      nombre: 'Artista 1',
-      fechaNacimiento: '2020-10-10',
-      retrato: 'https://imagenretratoartista.com'
-    }, {
-      _id: 2,
-      nombre: 'Artista 2',
-      fechaNacimiento: '2020-10-10',
-      retrato: 'https://imagenretratoartista.com'
-    } ] );
-
-    const datosPlaylists =  playlists.insertMany( [ {
-      _id: 1,
-      nombre: 'Playlist 1',
-      fechaCreacion: '2020-10-10',
-      portada: 'https://imagenportadaplaylist.com',
-      usuario: {
-        _id: 1,
-      },
-      canciones: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      nombre: 'Playlist 2',
-      fechaCreacion: '2020-10-10',
-      portada: 'https://imagenportadaplaylist.com',
-      usuario: {
-        _id: 2,
-      },
-      canciones: {
-        _id: 2,
-      }
-    } ] );
-
-    const datosAlbum =  album.insertMany( [ {
-      _id: 1,
-      nombre: 'Album 1',
-      fechaLanzamiento: '2020-10-10',
-      portada: 'https://imagenportadaalbum.com',
-      artista: {
-        _id: 1,
-      },
-      canciones: {
-        _id: 1,
-      },
-    }, {
-      _id: 2,
-      nombre: 'Album 2',
-      fechaLanzamiento: '2020-10-10',
-      portada: 'https://imagenportadaalbum.com',
-      artista: {
-        _id: 2,
-      },
-      canciones: {
-        _id: 2,
-      },
-    } ] );
-
-    const datosSuscripciones =  suscripciones.insertMany( [ {
-      _id: 1,
-      fechaInicio: '2020-10-10',
-      fechaFin: '2020-10-10',
-      usuario: {
-        _id: 1,
-      },
-      pago: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      fechaInicio: '2020-10-10',
-      fechaFin: '2020-10-10',
-      usuario: {
-        _id: 2,
-      },
-      pago: {
-        _id: 2,
-      }
-    } ] );
-
-    const datosLikeAlbum =  likeAlbum.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      album: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      album: {
-        _id: 2,
-      }
-    } ] );
-
-    const datosLikeCancion =  likeCancion.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      cancion: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      cancion: {
-        _id: 2,
-      }
-    } ] );
-
-    const datosSeguirPlaylist =  seguirPlaylist.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      playlist: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      playlist: {
-        _id: 2,
-      }
-    } ] );
-
-    const datosSeguirArtista =  seguirArtista.insertMany( [ {
-      _id: 1,
-      usuario: {
-        _id: 1,
-      },
-      artista: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      usuario: {
-        _id: 2,
-      },
-      artista: {
-        _id: 2,
-      }
-    } ] );
-
-    const datosGeneroMusical =  generoMusical.insertMany( [ {
-      _id: 1,
-      nombre: 'Rock'
-    }, {
-      _id: 2,
-      nombre: 'Flamenco'
-    } ] );
-
-    const datosArtistaSegunGenero =  artistaSegunGenero.insertMany( [ {
-      _id: 1,
-      artista: {
-        _id: 1,
-      },
-      generoMusical: {
-        _id: 1,
-      }
-    }, {
-      _id: 2,
-      artista: {
-        _id: 2,
-      },
-      generoMusical: {
-        _id: 2,
-      }
-    } ] );
-
-    console.log( 'Datos insertados correctamente' );
-  }
-  catch ( error ) {
-    console.log( error );
-  }
-  finally {
-    await client.close();
-  }
-}
-
-run().catch( console.dir );
+db.playlists.find().pretty();
