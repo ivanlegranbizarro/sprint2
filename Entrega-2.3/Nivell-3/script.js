@@ -15,7 +15,7 @@ db.usuaris.insertMany(
       username: 'usuario1',
       data_naixement: '1992-09-23',
       sexe: 'home',
-      pais: 'espanya',
+      pais: 'Espanya',
       codi_postal: 08820,
       tipus: 'premium',
       pagament: {
