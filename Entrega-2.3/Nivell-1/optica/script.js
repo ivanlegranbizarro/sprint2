@@ -63,7 +63,7 @@ db.clients.insertMany(
       data_registre: '2022-09-12',
       ulleres:
       {
-        marca: 'Rayban',
+        marca: 'Ray-Ban',
         graduacio_esquerra: 1.5,
         graduacio_dreta: 1.5,
         muntura: {
@@ -87,7 +87,7 @@ db.clients.insertMany(
       nom: 'Client 2',
       adreça_postal: '08010',
       telefon: '123456789',
-      correu_electronic: 'pedro@hotmail.com',
+      correu_electronic: 'client2@client2.com',
       data_registre: '2022-09-12',
       client_recomanat: {
         $ref: 'clients',
